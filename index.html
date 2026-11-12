@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The multi-agent society</title>
+<link rel="icon" href="data:,">
+<style>
+:root { --paper:#f7f8fa; --card:#fff; --ink:#14181f; --muted:#5d6675; --rule:#dfe3ea; --accent:#234a8f; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--paper); color:var(--ink); font:18px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+main { max-width:760px; margin:0 auto; padding:40px 16px 56px; }
+h1 { font-size:34px; line-height:1.15; margin:0 0 4px; }
+.by { color:var(--muted); margin:0 0 28px; }
+h2 { font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:28px 0 10px; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:560px) { .grid { grid-template-columns:1fr; } h1 { font-size:28px; } }
+a.card { display:block; background:var(--card); border:1px solid var(--rule); border-radius:8px; padding:16px; color:var(--ink); text-decoration:none; }
+a.card:hover, a.card:focus-visible { border-color:var(--accent); outline:none; }
+a.card b { display:block; color:var(--accent); font-size:20px; }
+a.card span { display:block; color:var(--muted); font-size:15px; margin-top:2px; }
+a.card.main { grid-column:1 / -1; background:var(--accent); border-color:var(--accent); }
+a.card.main b, a.card.main span { color:#fff; }
+#offline { margin:24px 0 0; padding:12px 16px; border-radius:8px; border:1px solid var(--rule); background:var(--card); font-size:15px; }
+#offline.ok { border-color:#2f7d4f; color:#1f5a38; }
+dl { display:grid; grid-template-columns:max-content 1fr; gap:4px 16px; margin:0; font-size:16px; }
+dt { font-family:ui-monospace,Menlo,Consolas,monospace; color:var(--accent); }
+dd { margin:0; color:var(--muted); }
+.mirrors { font-size:15px; color:var(--muted); }
+.mirrors a { color:var(--accent); }
+</style>
+</head>
+<body>
+<main>
+<h1>The multi-agent society</h1>
+<p class="by">Dr Henry Franks — Chief Architect, Climate Policy Radar</p>
+
+<div class="grid">
+<a class="card main" href="presentation/"><b>Open the slides</b><span>Then press f for fullscreen. Arrow keys, space or click to advance.</span></a>
+<a class="card" href="presentation/companion.html" target="ai2026-companion"><b>Presenter companion</b><span>Second screen, same browser. Follows the slides and can drive them.</span></a>
+<a class="card" href="notes.html"><b>Script for a phone</b><span>Every step with its thumbnail and lines. Does not sync.</span></a>
+<a class="card" href="slides.pdf"><b>Slides PDF</b><span>88 pages, 12 MB. The fallback if the browser misbehaves.</span></a>
+<a class="card" href="notes.pdf"><b>Script PDF</b><span>88 phone-shaped pages, 3 MB.</span></a>
+</div>
+
+<p id="offline">Checking whether this browser has saved the deck for offline use…</p>
+
+<h2>Keys in the slides</h2>
+<dl>
+<dt>→ space click</dt><dd>next step</dd>
+<dt>←</dt><dd>back</dd>
+<dt>f</dt><dd>fullscreen</dd>
+<dt>c</dt><dd>open the companion in its own window (allow pop-ups if asked), then drag it to the other screen</dd>
+<dt>n</dt><dd>notes overlay on the slide itself (the room can see it)</dd>
+<dt>?</dt><dd>all keys</dd>
+</dl>
+
+<h2>Mirrors</h2>
+<p class="mirrors">The same files are at <a href="https://henreh.github.io/mas/">henreh.github.io/mas</a> and <a href="https://oooooooo.my/mas/">oooooooo.my/mas</a>.</p>
+</main>
+<script>
+(function () {
+  var box = document.getElementById('offline');
+  function say(t, ok) { box.textContent = t; if (ok) box.className = 'ok'; }
+  if (!('serviceWorker' in navigator) || !window.caches) {
+    say('This browser will not save the deck for offline use. It runs fine while the network is up; keep the PDFs as the fallback.');
+    return;
+  }
+  navigator.serviceWorker.register('sw.js').catch(function () {
+    say('Offline saving is unavailable here. The deck runs fine while the network is up.');
+  });
+  navigator.serviceWorker.ready.then(function () {
+    return caches.keys();
+  }).then(function (keys) {
+    var k = keys.filter(function (n) { return n.indexOf('mas-live-') === 0; })[0];
+    return k ? caches.open(k).then(function (c) { return c.keys(); }) : [];
+  }).then(function (items) {
+    say('Saved for offline use: ' + items.length + ' files. The slides, companion, script and PDFs will now open in this browser even if the network drops.', true);
+  }).catch(function () {});
+})();
+</script>
+</body>
+</html>

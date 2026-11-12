@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stochastic parrots and stochastic spiders</title>
+<meta name="description" content="Lecture deck — how modern AI works, via one metaphor: concepts are locations, an answer is a walk.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="deck.css">
+<meta name="robots" content="noindex">
+<script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js').catch(function () {});</script>
+</head>
+<body>
+
+<div id="viewport">
+  <div id="stage" data-mode="light" data-kind="title">
+
+    <div id="builds" aria-hidden="true"></div>
+
+    <main id="slides"></main>
+
+    <div id="chrome">
+      <div id="rail">
+        <span id="rail-count"></span>
+      </div>
+      <div id="progress"><div id="progress-fill"></div></div>
+      <div id="build-debt"></div>
+    </div>
+
+    <aside id="notes" class="overlay">
+      <div class="notes-head">
+        <span class="notes-eyebrow">Presenter notes</span>
+        <span class="notes-pos" id="notes-pos"></span>
+      </div>
+      <div class="notes-scroll" id="notes-body"></div>
+    </aside>
+
+    <div id="help" class="overlay">
+      <div class="help-card">
+        <span class="help-eyebrow">Keys</span>
+        <dl class="help-list">
+          <dt><span class="mark-arrow"><span class="vh">right arrow</span></span> · space · click</dt><dd>Next step. Inside a visualisation this walks the build one step at a time, then leaves it.</dd>
+          <dt><span class="mark-arrow is-back"><span class="vh">left arrow</span></span></dt><dd>Back. Entering a visualisation backwards lands on its last step.</dd>
+          <dt>home · end</dt><dd>First step · last step.</dd>
+          <dt>n</dt><dd>Presenter notes for this slide.</dd>
+          <dt>c</dt><dd>Presenter companion on the second screen. Opens it, or brings the one already open to the front.</dd>
+          <dt>f</dt><dd>Fullscreen.</dd>
+          <dt>?</dt><dd>This card. Escape closes.</dd>
+          <dt>#slide-id</dt><dd>Deep link. Jumps to a slide, and to its entry step if it is a visualisation.</dd>
+        </dl>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="deck.js"></script>
+</body>
+</html>

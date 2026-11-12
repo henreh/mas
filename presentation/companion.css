@@ -1,0 +1,508 @@
+/* ==========================================================================
+   Presenter companion — the second screen.
+
+   This is not the stage. The deck is authored in stage pixels against a fixed
+   1920x1080 and read from the back of a room; this page is read at arm's
+   length off a laptop, so it is authored in rems against the browser's own
+   viewport and set at 18px and up. What it borrows from the deck is the part
+   that must not drift: the two faces (Hanken Grotesk for prose, JetBrains
+   Mono for labels and counters), the Async Forest grey scale, the single deep
+   blue accent, the hairline rules. Nothing here is ever projected, so it can
+   afford the density the stage cannot.
+   ========================================================================== */
+
+:root {
+  /* Neutral scale — the deck's, verbatim (deck.css) */
+  --gray-50:  #f9fbff;
+  --gray-100: #f4f6fb;
+  --gray-200: #edf0f7;
+  --gray-300: #e3e7f0;
+  --gray-400: #d5dae5;
+  --gray-500: #acb2bd;
+  --gray-600: #80858f;
+  --gray-700: #52565e;
+  --gray-800: #2c2f35;
+  --gray-900: #14161a;
+  --gray-950: #060709;
+
+  --paper:       var(--gray-50);
+  --panel:       var(--gray-100);
+  --ink:         var(--gray-900);
+  --text-body:   #2a2c30;
+  --muted:       #696b6f;
+  --line:        var(--gray-300);
+  --line-strong: var(--gray-400);
+  --hair:        var(--gray-500);
+  --accent:      #234a8f;
+  --ok:          #347460;      /* theme/THEME.md --sk-reward: functional success */
+  --warn:        #c0442e;      /* theme/THEME.md --sk-fail: functional failure   */
+
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+
+  --rail-w: 22rem;
+  --measure: 70ch;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  font-size: 18px;              /* the base of the whole page; nothing reads smaller than 0.8 of it */
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--paper);
+  color: var(--text-body);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: var(--rail-w) minmax(0, 1fr);
+  height: 100%;
+}
+
+/* ------------------------------------------------------------------ rail -- */
+
+#rail {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--panel);
+  border-right: 1px solid var(--line-strong);
+}
+
+.rail-head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.2rem 0.9rem;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.mono, .mono-head {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.mono-head {
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.rail-total { font-size: 0.8rem; color: var(--muted); }
+
+.rail-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 2rem;
+  scrollbar-width: thin;
+}
+.rail-scroll::-webkit-scrollbar { width: 8px; }
+.rail-scroll::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 4px; }
+
+.rail-section {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0.9rem 1.2rem 0.4rem;
+  background: var(--panel);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+}
+
+/* A .rail-section is sticky and opaque, so scrollIntoView({block:'nearest'})
+   happily parks the current row underneath one. The margin is one stuck header
+   tall — 0.9rem + 0.4rem of padding, a 0.72rem line, and its hairline — so the
+   row lands just clear of it. There is no sticky footer; the column's own
+   padding-bottom is enough at the other end. */
+.rail-item {
+  scroll-margin-top: 2.6rem;
+  display: grid;
+  grid-template-columns: 2.6rem 4.4rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.5rem;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  text-align: left;
+  font: inherit;
+  color: var(--text-body);
+  padding: 0.45rem 1.2rem;
+  cursor: pointer;
+}
+.rail-item:hover { background: var(--gray-200); }
+.rail-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.rail-item .n,
+.rail-item .id {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.rail-item .id { color: var(--gray-700); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rail-item .line {
+  font-size: 0.86rem;
+  line-height: 1.35;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rail-item.is-current {
+  background: #fff;
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+.rail-item.is-current .id   { color: var(--accent); font-weight: 700; }
+.rail-item.is-current .n    { color: var(--ink); }
+.rail-item.is-current .line { color: var(--ink); }
+
+/* ------------------------------------------------------------------ main -- */
+
+#main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* One row, always. The slide's own identity is fixed-width and never wraps;
+   the section label is the only elastic thing in it and gives up its tail to
+   an ellipsis, so the buttons stay where the hand expects them whatever slide
+   is up. */
+#head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--gray-50);
+}
+
+.head-meta {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  min-width: 0;
+}
+.counter {
+  flex: 0 0 auto;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+}
+.section {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.95rem;
+  color: var(--text-body);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.slug, .buildstep {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.buildstep {
+  color: var(--accent);
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  padding: 0.1rem 0.4rem;
+}
+
+/* Shrinks before .section does. If the row ever runs out of width, the link
+   light gives up its word — the dot still carries it, and the hint line below
+   says it in full — long before the section label starts losing letters. */
+.head-tools {
+  flex: 0 8 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.link-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.link-status #link-text { overflow: hidden; text-overflow: ellipsis; }
+.link-status .dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--gray-500);
+}
+.link-status[data-linked="yes"] { color: var(--ok); }
+.link-status[data-linked="yes"] .dot { background: var(--ok); }
+.link-status[data-linked="other"] { color: var(--warn); }
+.link-status[data-linked="other"] .dot { background: var(--warn); }
+
+/* The sentence the header has no room for: one line under it, and only while
+   there is something to say. */
+.link-hint {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0.5rem 2rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--gray-100);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+.link-hint[hidden] { display: none; }
+
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+}
+.btn:hover { border-color: var(--hair); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn.is-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.is-primary:hover { background: #1c3c74; }
+
+.main-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 2rem 2rem 5rem;
+}
+.main-scroll::-webkit-scrollbar { width: 10px; }
+.main-scroll::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 5px; }
+
+/* --------------------------------------------------------- slide surface -- */
+
+/* A quiet echo of what is on the other screen — enough to know the room is
+   looking at the right thing, never enough to read instead of the stage. */
+.slide-head {
+  max-width: var(--measure);
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--line);
+}
+.slide-head .display {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+}
+.slide-head .body {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-body);
+  margin: 0.6rem 0 0;
+}
+.slide-head .caption {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--muted);
+  margin: 0.7rem 0 0;
+}
+.slide-head :empty { display: none; }
+
+/* ---------------------------------------------------------------- blocks -- */
+
+.block { margin: 2rem 0 0; max-width: var(--measure); }
+
+.block-head {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.block p {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text-body);
+  margin: 0 0 0.85rem;
+}
+.block p:last-child { margin-bottom: 0; }
+
+/* The run-through is what Henry actually said last time; it is the block he
+   reads from, so it gets the most ink and a rule down its left edge to find
+   it at a glance. */
+.block.is-runthrough p {
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+.block.is-runthrough .block-body {
+  border-left: 2px solid var(--line-strong);
+  padding-left: 1.1rem;
+}
+
+.block.is-spoken p { color: var(--gray-700); }
+
+.step-note {
+  margin-top: 1rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--gray-100);
+  border-left: 2px solid var(--accent);
+}
+.step-note .step-note-tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.3rem;
+}
+.step-note p { font-size: 1rem; margin: 0; }
+
+.refs { list-style: none; margin: 1rem 0 0; padding: 0; }
+.refs li {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin: 0 0 0.4rem;
+  color: var(--muted);
+}
+.refs a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.refs a:hover { text-decoration-thickness: 2px; }
+
+.empty-note {
+  margin: 2rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: var(--gray-500);
+}
+
+.next-up {
+  margin: 3rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  max-width: var(--measure);
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+.next-up .tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-right: 0.6rem;
+}
+
+/* ---------------------------------------------------------------- script -- */
+
+/* The script is the one thing on screen by default: the companion.json notes,
+   one list item per line, marker on the left. Six lines fit a laptop screen
+   without scrolling at this size. The marker classes come from companion.js:
+   say (-), read (!), ask (?), jump (>), pocket (~). */
+.script { list-style: none; margin: 0; padding: 0; }
+.script li {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  column-gap: 0.5rem;
+  font-size: 1.4rem;
+  line-height: 1.45;
+  color: var(--ink);
+  margin: 0 0 0.6rem;
+}
+.script li:last-child { margin-bottom: 0; }
+.script .script-mark {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  line-height: 2rem;
+  text-align: center;
+  color: var(--muted);
+}
+.script-read .script-text { font-weight: 600; }
+.script-ask .script-text { color: var(--accent); font-size: 1.5rem; }
+.script-ask .script-mark { color: var(--accent); }
+.script-jump .script-text {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  line-height: 2rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+/* Pocket lines read as ordinary script (Henry, 15 Sep 2026: not grey); only
+   the ~ mark says they are optional. */
+.script-pocket .script-mark { color: var(--muted); }
+
+/* A build step's line(s), as <p>s so a step note stays one paragraph per line. */
+.step-note .script-line { font-size: 1.25rem; line-height: 1.45; margin: 0 0 0.3rem; color: var(--ink); }
+.step-note .script-line:last-child { margin-bottom: 0; }
+.step-note .script-read { font-weight: 600; }
+.step-note .script-ask { color: var(--accent); }
+
+/* Summary, sources and the manifest's decision record sit behind `d`. */
+.block.is-detail { display: none; }
+.blocks.is-details-open .block.is-detail { display: block; }
+.btn[aria-pressed="true"] { background: var(--gray-100); }
+
+/* ----------------------------------------------------------- narrow-ish --- */
+
+/* Laptop width. The header row carries seven things — counter, section, slide
+   id and kind, a build's step chip, the link light and two buttons — and at
+   1280 the section label is the one that would be squeezed to an ellipsis.
+   Tighten the gutters and the gaps instead; the body's left edge stays lined
+   up with the header's because both move together. */
+@media (max-width: 1400px) {
+  #head { padding: 1rem 1.25rem; gap: 1rem; }
+  .head-meta { gap: 0.6rem; }
+  .main-scroll { padding: 2rem 1.25rem 5rem; }
+  .link-hint { padding: 0.5rem 1.25rem; }
+}
+
+/* px, not rem: a media query resolves rem against the browser's initial
+   16px, never against this page's 18px root — 60rem here would fire 120px
+   earlier than the 60 × 18px the rest of the file is written in. */
+@media (max-width: 1080px) {
+  #app { grid-template-columns: 15rem minmax(0, 1fr); }
+  .main-scroll { padding: 1.5rem 1.25rem 4rem; }
+  #head { padding: 0.9rem 1.25rem; }
+}

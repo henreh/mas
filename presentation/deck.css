@@ -1,0 +1,1054 @@
+/* ==========================================================================
+   Stochastic parrots and stochastic spiders — presentation shell.
+   Aesthetic authority: Async Forest Advisory design system (monochrome ink on
+   cool paper, Hanken Grotesk display, JetBrains Mono eyebrows, hairline rules,
+   one rare deep-blue accent, calm 200ms fades). Reconciled with theme/THEME.md
+   so the shell chrome and the embedded spider-kit builds are one surface.
+   Stage is a fixed 1920x1080; everything on it is authored in stage pixels.
+   ========================================================================== */
+
+:root {
+  /* Neutral scale — supplied verbatim by Async Forest */
+  --gray-50:  #f9fbff;
+  --gray-100: #f4f6fb;
+  --gray-200: #edf0f7;
+  --gray-300: #e3e7f0;
+  --gray-400: #d5dae5;
+  --gray-500: #acb2bd;
+  --gray-600: #80858f;
+  --gray-700: #52565e;
+  --gray-800: #2c2f35;
+  --gray-900: #14161a;
+  --gray-950: #060709;
+
+  /* Roles */
+  --paper:       var(--gray-100);   /* the stage ground; matches --sk-paper   */
+  --ink:         var(--gray-900);   /* display copy, rules, progress fill     */
+  --void:        var(--gray-950);   /* the hinge beat, the letterbox          */
+  --text-body:   #2a2c30;           /* mix(ink 90%, paper) — THEME.md §2      */
+  --muted:       #696b6f;           /* mix(ink 62%, paper) — THEME.md §2      */
+  --line:        var(--gray-300);
+  --line-strong: var(--gray-400);
+  --hair:        var(--gray-500);   /* structural hairlines — must survive a projector */
+  --hair-strong: var(--gray-600);   /* the debt card's dashed edge, 3.3:1 on paper      */
+  --accent:      #234a8f;           /* THE accent. Rarer than ever: the title bar */
+  --danger:      #c0442e;           /* functional fail only                   */
+
+  /* Two faces set type on this stage and there is no third. Nothing here may
+     name a fallback that could paint a glyph the brand subsets lack — arrows
+     and marks are drawn in CSS instead (see .mark-arrow). */
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur:      200ms;
+
+  --pad-x: 128px;
+  --pad-t: 92px;
+  --pad-b: 108px;   /* content stops above the step counter (bottom 52px + ~31px
+                       of mono line box = 83px), with a hair over 24px of air.
+                       Was 148px, reserved for a rail that spanned the full
+                       width; the counter now occupies only the right corner. */
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--void);
+  overflow: hidden;
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+}
+
+#viewport {
+  position: fixed;
+  inset: 0;
+}
+
+/* The stage is larger than most windows, so it cannot be grid/flex-centered —
+   an overflowing item pins to the start edge and "center" silently fails.
+   Anchor its top-left to the viewport center and pull it back by half its own
+   size in the same transform that scales it (see scaleStage in deck.js). */
+#stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1920px;
+  height: 1080px;
+  background: var(--paper);
+  color: var(--ink);
+  overflow: hidden;
+  transform-origin: 50% 50%;
+  transition: background var(--dur) var(--ease-out);
+}
+
+#stage[data-mode="dark"] { background: var(--void); }
+
+/* ---------------------------------------------------------------- layers -- */
+
+#builds  { position: absolute; inset: 0; z-index: 1; }
+#slides  { position: absolute; inset: 0; z-index: 2; display: block; }
+#chrome  { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.overlay { position: absolute; z-index: 4; }
+
+#builds iframe {
+  position: absolute;
+  inset: 0;
+  width: 1920px;
+  height: 1080px;
+  border: 0;
+  display: block;
+  background: var(--paper);
+  pointer-events: none;      /* clicks fall through to the shell; keeps focus */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur) var(--ease-out), visibility 0s linear var(--dur);
+}
+#builds iframe.is-current {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--dur) var(--ease-out), visibility 0s;
+}
+/* A build that has already had its turn is parked out of the render tree, so
+   its canvas stops animating. Frames still warming up stay laid out (hidden,
+   not detached) so spider-kit boots against a real 1920x1080 viewport. */
+#builds iframe.is-idle { display: none; }
+
+/* ---------------------------------------------------------------- slides -- */
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  background: var(--paper);
+  transition: opacity var(--dur) var(--ease-out), visibility 0s linear var(--dur);
+}
+.slide.is-current {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--dur) var(--ease-out), visibility 0s;
+}
+.slide[data-kind="build"] { background: transparent; }
+.slide[data-kind="hinge"] { background: var(--void); }
+
+.body-box {
+  position: absolute;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  top: var(--pad-t);
+  bottom: var(--pad-b);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  padding-bottom: 56px;          /* optical centre sits above geometric      */
+  font-size: 16px;               /* autofit root; em-scaled children follow   */
+}
+
+.stack { display: flex; flex-direction: column; gap: 0.75em; width: 100%; }
+.stack.is-tight { gap: 0; }
+
+/* ------------------------------------------------------------ type roles -- */
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.35em;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 4.5em;              /* 72px at root 16 */
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin: 0;
+  max-width: 22em;
+  text-wrap: balance;
+}
+
+.body {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 2.25em;             /* 36px at root 16 */
+  line-height: 1.4;
+  color: var(--text-body);
+  margin: 0;
+  max-width: 30em;
+  text-wrap: pretty;
+}
+
+.caption {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.45;
+  color: var(--muted);
+  margin: 0;
+  max-width: 62em;
+}
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--hair);
+  margin: 0.4em 0 0.1em;
+  width: 100%;
+  max-width: 1180px;   /* the rule tracks the measure, not the slide edge */
+}
+.title-foot hr.rule { max-width: none; }
+
+/* ------------------------------------------------------------- reading ---- */
+
+/* A suggested-reading list is the caption block wearing a second form: same
+   mono face, same caption size, same muted ink, same hairline above it — set
+   as lines instead of one crammed sentence, because six citations in a row of
+   prose is a wall and six lines is something a room can photograph. The one
+   accent on the screen is spent on the link underline and nowhere else: the
+   type stays the caption's grey, so the list reads as apparatus and not as a
+   web page. Nothing here is a card and nothing here is boxed (V-18). */
+
+.reading-block { width: 100%; min-width: 0; }
+
+.reading-head {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 24px;               /* the stage floor, never under it (V-7) */
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;     /* the deck's small-caps idiom — the mono
+                                    subset carries no true small-cap set, and
+                                    a synthesised one would be a third face */
+  color: var(--muted);
+  margin: 16px 0 10px;
+}
+
+ul.reading {
+  list-style: none;              /* the marker is drawn below, so no glyph is
+                                    ever asked of a font that may lack it */
+  margin: 0;
+  padding: 0;
+  max-width: 1560px;
+}
+ul.reading > li {
+  position: relative;
+  padding-left: 34px;            /* wrapped lines hang under the first */
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.25;             /* tighter than the caption's 1.45: these are
+                                    separate citations, not one paragraph, and
+                                    seven of them have to clear the stage */
+  color: var(--muted);
+  margin: 0 0 9px;
+}
+ul.reading > li:last-child { margin-bottom: 0; }
+ul.reading > li::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 0.52em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--hair-strong);
+}
+
+/* accent as an underline and as nothing else — not a text fill, not a hover
+   colour, not a visited state. One blue thing on the screen (V-4). */
+ul.reading a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.24em;
+  text-decoration-skip-ink: none;
+}
+ul.reading a:visited { color: inherit; }
+
+/* Every slide is pointer-events:none so a click anywhere on the stage reaches
+   the shell and advances the deck. A citation is the one thing on a slide with
+   somewhere else to go, so the CURRENT slide's links — and nothing else — take
+   the pointer back, and onClick() in deck.js lets a click that landed inside an
+   <a> through to the browser instead of spending it on the next step. Only the
+   current slide: the panels behind it are laid out on top of one another, and a
+   hidden slide's citations must not intercept the room's clicks. */
+.slide.is-current ul.reading a { pointer-events: auto; cursor: pointer; }
+
+.slide[data-kind="hinge"] .reading-head { color: var(--gray-500); }
+.slide[data-kind="hinge"] ul.reading > li { color: var(--gray-400); }
+.slide[data-kind="hinge"] ul.reading > li::before { background: var(--gray-600); }
+
+/* --------------------------------------------------------- two columns ---- */
+
+/* Two lists that are one comparison. Read across the pair, not down a stack
+   of six: the pairing is the point, so it is drawn as geometry rather than
+   left for the room to reconstruct. Body type throughout — the heading is the
+   body face at the body size, one weight up so the eye finds the two column
+   tops without a rule, a box or a colour. Marks are the deck's ink, drawn, no
+   icons. Sized in em so the autofit scales the pair with the rest of the
+   slide; the floor (2.25em at root 12) is 27px, clear of the 24px minimum. */
+.cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0.55em 0 0;   /* the pair is a block under the claim, not a
+                          continuation of it */
+}
+.cols-col { min-width: 0; }
+
+.cols-head {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 2.25em;             /* 36px at root 16 — the body size */
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 0 0 0.34em;
+}
+
+ul.cols-list, ul.bullets { list-style: none; margin: 0; padding: 0; }
+ul.cols-list > li, ul.bullets > li {
+  position: relative;
+  padding-left: 1em;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 2.25em;
+  line-height: 1.4;
+  color: var(--text-body);
+  margin: 0 0 0.26em;
+}
+ul.cols-list > li:last-child, ul.bullets > li:last-child { margin-bottom: 0; }
+ul.cols-list > li::before, ul.bullets > li::before {
+  content: '';
+  position: absolute;
+  left: 0.08em;
+  top: 0.6em;
+  width: 0.2em;
+  height: 0.2em;
+  border-radius: 50%;
+  background: var(--ink);
+}
+
+.slide[data-kind="hinge"] .cols-head { color: var(--gray-50); }
+.slide[data-kind="hinge"] ul.cols-list > li,
+.slide[data-kind="hinge"] ul.bullets > li { color: var(--gray-400); }
+.slide[data-kind="hinge"] ul.cols-list > li::before,
+.slide[data-kind="hinge"] ul.bullets > li::before { background: var(--gray-400); }
+
+/* ------------------------------------------------------------- bullets ---- */
+
+/* One plain list, under the sentence it continues. Everything it is made of is
+   borrowed above: the body's face, size and ink, and the two-column list's
+   drawn ink dot — the deck has one list idiom and a bullet list is that idiom
+   set full width, so a `bullets` slide and a `columns` slide read as one
+   family. What it adds is only where it sits: a block under the claim rather
+   than a continuation of it (the same 0.55em .cols opens with), on the body's
+   own measure, so the list wraps where the paragraph above it wraps. */
+ul.bullets { margin: 0.55em 0 0; }
+ul.bullets > li { max-width: 30em; }   /* .body's measure, in the item's own em */
+
+/* In the narrow text column of an image slide the body steps down a size; the
+   list steps down with it, and never below it — FLOOR_COLUMN in deck.js is
+   read off the smallest em multiplier a column can carry (1.9em), so a list
+   set smaller than the body would let a line fall under the 24px stage
+   minimum (V-7). */
+.col-text ul.bullets > li { font-size: 2em; }
+.col-head ul.bullets > li { font-size: 1.9em; }
+
+/* ------------------------------------------------------------ drawn marks -- */
+
+/* The deck's arrow. Drawn, not typed: neither brand face carries U+2192, and a
+   fallback face is a third typeface on stage. Sized in em and painted in
+   currentColor, so it takes the size, weight and colour of whatever copy it
+   sits in — display, body, caption, presenter note alike. */
+.mark-arrow {
+  display: inline-block;
+  position: relative;
+  width: 1.22em;
+  height: 0.66em;
+  vertical-align: -0.02em;
+  flex: none;
+}
+.mark-arrow::before {
+  content: '';
+  position: absolute;
+  left: 0.02em;
+  right: 0.14em;
+  top: 50%;
+  border-top: 0.076em solid currentColor;
+}
+.mark-arrow::after {
+  content: '';
+  position: absolute;
+  right: 0.15em;
+  top: 50%;
+  width: 0.3em;
+  height: 0.3em;
+  border-top: 0.076em solid currentColor;
+  border-right: 0.076em solid currentColor;
+  transform: translateY(-50%) rotate(45deg);
+}
+.mark-arrow.is-back { transform: scaleX(-1); }
+
+.vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------- flow ----- */
+
+/* D1's box-and-arrow diagram, set as structure. A cell is a hairline box and
+   never breaks across a line, so the reader recovers the rows without parsing
+   punctuation, and a duplication beat adds visible rows rather than lines. */
+.flow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.44em;
+  font-size: 2em;                /* 32px at root 16 */
+  line-height: 1.3;
+  color: var(--text-body);
+  margin: 0.34em 0 0;
+}
+.flow.is-grid {
+  display: grid;
+  justify-content: start;
+  align-items: center;
+  column-gap: 0.5em;
+  row-gap: 0.44em;
+}
+.flow.is-grid > .flow-row { display: contents; }
+
+.flow-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  column-gap: 0.5em;
+  row-gap: 0.44em;
+}
+
+.flow-cell {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--hair);
+  border-radius: 4px;
+  padding: 0.24em 0.5em 0.3em;
+  background: transparent;
+}
+.flow-arrow { align-self: center; }
+
+.slide[data-kind="hinge"] .flow       { color: var(--gray-400); }
+.slide[data-kind="hinge"] .flow-cell  { border-color: var(--gray-700); }
+
+/* --------------------------------------------------------------- title ---- */
+
+.slide[data-kind="title"] .body-box { justify-content: center; bottom: 300px; }
+.slide[data-kind="title"] .display { font-size: 7em; max-width: 17em; }
+.slide[data-kind="title"] .body    { font-size: 2.75em; color: var(--muted); max-width: 26em; }
+
+.accent-bar {
+  width: 176px;
+  height: 8px;
+  background: var(--accent);
+  margin: 0 0 0.9em;
+  flex: none;
+}
+
+.title-foot {
+  position: absolute;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  bottom: 200px;
+}
+.title-foot hr.rule { margin: 0 0 26px; }
+.title-foot .caption { font-size: 26px; letter-spacing: 0; max-width: none; }
+
+/* ---------------------------------------------------------------- rule ---- */
+
+/* The rules are still the spine, and they are no longer labelled on the slide:
+   no "Rule" mark, no accent numeral, no side column to hold them. What survives
+   is the type scale — a rule sentence is set larger and to a tighter measure
+   than a copy claim, so it still reads as the beat the section turns on. */
+.rule-text { min-width: 0; }
+.slide[data-kind="rule"] .display { font-size: 6em; max-width: 15em; }
+.slide[data-kind="rule"] .body    { margin-top: 0.5em; }
+
+/* ---------------------------------------------------------- annotation ---- */
+
+/* D5 again, and A8: the jargon is stapled onto a sentence the room has already
+   understood, never issued in advance. The phrase is highlighted where it
+   stands — the deck's one accent, used as ink rather than as a marker pen —
+   and a short arrow points back up at it from a label set in the mono face, so
+   the label reads as annotation and not as another line of the sentence.
+   Horizontal padding only on the mark: anything vertical would move the line.
+   deck.js layoutAnnotations() pins each label under its phrase after the fit. */
+/* The reserved gutter under an annotated sentence. `annotationOffset` on the
+   slide widens it, and deck.js hands the same number straight back as a
+   negative margin, so the block the autofit measures — and therefore the
+   vertical centring of the headline — is unchanged by the drop. */
+.rule-text.has-anno {
+  position: relative;
+  padding-bottom: calc(176px + var(--anno-offset, 0px));
+  margin-bottom: calc(0px - var(--anno-offset, 0px));
+}
+
+/* A marked phrase paints its tint and its accent rule across the *font* box,
+   which at the display face is ~1.30em tall — taller than the 1.06 leading a
+   rule sentence is set on. So on a wrapped phrase the mark of one line bled
+   into the line under it and the accent rule cut straight through the next
+   row of glyphs. The annotated sentence therefore leads at 1.36: wider than
+   the mark, so consecutive marks clear each other and the rule always
+   underlines its own line. Only the annotated sentence pays this; every other
+   rule slide keeps the tight setting. */
+.rule-text.has-anno .display { line-height: 1.36; }
+
+.anno-mark {
+  background: rgba(35, 74, 143, 0.10);
+  box-shadow: inset 0 -0.085em 0 0 var(--accent);
+  border-radius: 3px;
+  padding: 0 0.04em;
+}
+
+.anno-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.anno-note {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.anno-stem {
+  position: relative;
+  width: 0;
+  height: 26px;                      /* set per label by layoutAnnotations() */
+  border-left: 2px solid var(--accent);
+}
+/* the head, pointing back up at the phrase — two borders on a rotated square,
+   the same trick .mark-arrow uses, so no glyph is ever asked for */
+.anno-stem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -6px;
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid var(--accent);
+  border-top: 2px solid var(--accent);
+  transform: rotate(45deg);
+  transform-origin: 50% 50%;
+}
+
+.anno-label {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  white-space: nowrap;
+  margin-top: 12px;
+}
+
+/* ----------------------------------------------------------------- s24 ---- */
+
+/* The layer motif, in the form build-04 later escalates it in (four layers / a
+   hundred and twenty / one trillion): four tall columns of stacked blocks in a
+   row, hand-drawn arrows across at their mid-height, and one line of type
+   under each column naming what that layer holds. Same picture as build-04's
+   step 0 — "the format that should be used for slide 49" — so the callback is
+   literal and the audience recognises the glyph rather than re-reading it. The
+   four `rows` cells stop being hairline boxes and become those captions: the
+   box, its border and the short rule that used to hang under it all go.
+   The 1.836em / 2.55em pitch is build-04's own geometry (CELL 36, gapR 0.28,
+   eight cells at column width 36) carried over so both slides draw the same
+   column. Scoped to this slide by id so none of it can reach another flow
+   block in the deck. */
+
+/* the columns hang from the top of the box, and the head block pins there too
+   — "move the title up a fair amount" (video pass, 12:53) */
+.slide[data-id="s24"] .body-box { justify-content: flex-start; padding-bottom: 0; }
+
+.slide[data-id="s24"] .flow {
+  margin-top: 1.1em;
+  margin-bottom: 0;
+  width: 100%;
+}
+/* four columns across the full measure, never wrapped to a second line */
+.slide[data-id="s24"] .flow-row {
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  column-gap: 0.55em;
+  width: 100%;
+}
+/* the caption is set in the body face and in sentence case, not build-04's
+   tracked mono caps: these are 44-character sentences, and shouting one would
+   cost the sentence its readability (B4 keeps caps for vocal emphasis). */
+.slide[data-id="s24"] .flow-cell {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  font-size: 0.78em;
+  line-height: 1.32;
+  color: var(--gray-600);
+}
+.slide[data-id="s24"] .flow-cell::before {
+  content: '';
+  display: block;
+  width: 2.6em;
+  height: 20.4em;
+  margin-bottom: 1.5em;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--ink) 0, var(--ink) 1.836em,
+    transparent 1.836em, transparent 2.55em
+  );
+}
+/* the arrow crosses at the columns' mid-height, as it does in build-04 */
+.slide[data-id="s24"] .flow-arrow { align-self: flex-start; margin-top: 7.6em; flex: 0 0 auto; }
+
+/* --------------------------------------------------------------- hinge ---- */
+
+.slide[data-kind="hinge"] .body-box { align-items: flex-start; }
+.slide[data-kind="hinge"] .eyebrow  { color: var(--gray-500); }
+.slide[data-kind="hinge"] .display  { color: var(--gray-50); font-size: 6.5em; max-width: 16em; }
+.slide[data-kind="hinge"] .body     { color: var(--gray-400); }
+.slide[data-kind="hinge"] .caption  { color: var(--gray-500); }
+.slide[data-kind="hinge"] hr.rule   { border-top-color: rgba(244,246,251,0.22); }
+
+/* --------------------------------------------------------------- quote ---- */
+
+/* the quote keeps the deck's left margin; the mark above it is the emphasis */
+.slide[data-kind="quote"] .body-box { padding-bottom: 56px; }
+.slide[data-kind="quote"] .display {
+  font-weight: 500;
+  font-size: 5.25em;
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+  max-width: 19em;
+}
+.quote-mark {
+  width: 240px;
+  border-top: 3px solid var(--ink);
+  margin: 0 0 0.7em;
+  flex: none;
+}
+
+/* --------------------------------------------------------------- image ---- */
+
+/* An artifact slide gives the picture everything the counter does not need. */
+.slide[data-kind="image"] .body-box { overflow: hidden; padding-bottom: 0; top: 68px; bottom: 100px; }
+/* Nothing above the picture to leave room for, so the top margin closes up and
+   the artifact wins back most of the height its caption now costs it. The
+   bottom stays where it is: that is the counter's corner. */
+.slide[data-kind="image"] .body-box.is-bare { top: 40px; }
+
+.lay-row { display: flex; flex-direction: row; align-items: stretch; gap: 88px; height: 100%; width: 100%; }
+.lay-col { display: flex; flex-direction: column; gap: 34px; height: 100%; width: 100%; }
+.lay-row > .lay-col { flex: 1 1 0; min-width: 0; width: auto; }
+
+.col-text {
+  flex: 0 0 620px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  font-size: 16px;
+}
+.col-text .display { font-size: 3.9em; }
+.col-text .body    { font-size: 2em; margin-top: 0.6em; }
+
+.col-head {
+  flex: 0 0 auto;
+  max-height: 42%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+}
+.col-head .display { font-size: 3.75em; max-width: 26em; }
+.col-head .body    { font-size: 1.9em; margin-top: 0.55em; max-width: 44em; }
+
+/* A pair of figures sits on the same grid as the type: left edge on the text
+   margin (or, in a two-column slide, on the figure column's own margin), so
+   the two pictures read as one stacked comparison. A LONE figure is centred
+   instead — see .fig-group.is-single below. */
+.fig-group {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* figure + caption centre as one block */
+  gap: 26px;
+}
+
+/* One picture on the slide: centre it, and centre the line that names it
+   under it. Applies wherever the group lands — a full-width artifact slide
+   or the figure column of a figure-right slide — so a single image is never
+   hung off one edge of the space it was given. */
+.fig-group.is-single > .figs > figure.fig { justify-content: center; }
+.fig-group.is-single > .fig-caption       { justify-content: center; }
+
+.figs { flex: 1 1 auto; min-height: 0; width: 100%; display: flex; gap: 48px; align-items: stretch; justify-content: flex-start; }
+.figs.is-stacked { flex-direction: column; row-gap: 34px; justify-content: center; }
+.figs.is-stacked > figure.fig { width: 100%; }
+
+/* A wall of evidence: two columns, as many rows as it takes. Each cell is an
+   equal share of the box and the picture is centred in it, so four charts of
+   four different aspect ratios still read as one grid. */
+.figs.is-grid { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 26px 44px; align-items: stretch; }
+.figs.is-grid > figure.fig { width: 100%; justify-content: center; }
+
+figure.fig {
+  margin: 0;
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+figure.fig img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  background: var(--gray-50);   /* the brand's brightest tone, not off-scale #fff */
+  border: 1px solid var(--hair);
+  border-radius: 4px;
+}
+
+.fig-caption {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+.fig-caption .tick {
+  flex: none;
+  width: 44px;
+  border-top: 1px solid var(--hair);
+  margin-top: 17px;
+}
+
+/* artifact left, its unpaid debt in the gutter beside it */
+.fig-pair { flex: 1 1 auto; min-height: 0; display: flex; gap: 72px; align-items: stretch; }
+.fig-pair > .fig-group { flex: 1 1 auto; min-width: 0; }
+.fig-aside {
+  flex: 0 0 620px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* A text-free image slide has no head row and no side column: the artifact
+   takes the whole box, centred, with its caption underneath. An unpaid debt on
+   such a slide goes under the caption rather than into a reserved gutter —
+   a gutter the picture cannot use is width it has been charged for and never
+   spent, which is what kept these artifacts small. */
+.fig-under {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ---------------------------------------------------------------- debt ---- */
+
+.slide[data-kind="debt"] .stack { flex-direction: row; align-items: center; gap: 96px; }
+.debt-claim { flex: 1 1 58%; min-width: 0; display: flex; flex-direction: column; gap: 0.75em; }
+.debt-slot  { flex: 0 0 560px; }
+
+.debt {
+  border: 2px dashed var(--hair-strong);
+  border-radius: 14px;
+  padding: 34px 36px 32px;
+  background: transparent;
+  display: block;
+}
+.debt-tag {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 26px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.debt-tag .sep  { color: var(--hair); }
+.debt-tag .kind { color: var(--muted); font-weight: 400; }
+.debt-tag .blocking { color: var(--danger); font-weight: 600; }
+
+.debt hr.debt-rule {
+  border: 0;
+  border-top: 1px solid var(--hair);
+  margin: 22px 0 20px;
+}
+.debt-what {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.36;
+  color: var(--text-body);
+  margin: 0;
+}
+.debt-src {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  margin: 18px 0 0;
+}
+
+/* inline variant — a debt riding along on a copy / hinge / build slide */
+.debt.is-inline { max-width: 940px; padding: 28px 32px 26px; }
+.debt.is-inline .debt-what { font-size: 28px; }
+
+.slide[data-kind="hinge"] .debt { border-color: var(--gray-700); }
+.slide[data-kind="hinge"] .debt-tag { color: var(--gray-50); }
+.slide[data-kind="hinge"] .debt-tag .kind { color: var(--gray-500); }
+.slide[data-kind="hinge"] .debt-tag .sep  { color: var(--gray-700); }
+.slide[data-kind="hinge"] .debt hr.debt-rule { border-top-color: var(--gray-700); }
+.slide[data-kind="hinge"] .debt-what { color: var(--gray-400); }
+.slide[data-kind="hinge"] .debt-src  { color: var(--gray-500); }
+
+/* debt pinned over a full-bleed build */
+#build-debt {
+  position: absolute;
+  left: 64px;
+  bottom: 40px;
+  width: 720px;
+  display: none;
+}
+#build-debt.is-on { display: block; }
+#build-debt .debt {
+  padding: 22px 26px 20px;
+  background: var(--paper);      /* solid: the terrain must not ghost through it */
+  border-radius: 12px;
+}
+#build-debt .debt-tag { font-size: 24px; }
+#build-debt .debt-what { font-size: 26px; }
+#build-debt .debt hr.debt-rule { margin: 16px 0 14px; }
+
+/* --------------------------------------------------------------- chrome --- */
+
+/* The bottom-left section label is gone (it repeated itself on every slide of
+   a section); the step counter stays, alone, in the right-hand corner. */
+#rail {
+  position: absolute;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  bottom: 52px;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 1;
+  transition: opacity var(--dur) var(--ease-out);
+}
+#rail-count { flex: none; font-variant-numeric: tabular-nums; }
+
+#stage[data-kind="build"] #rail { opacity: 0; }
+#stage[data-mode="dark"]  #rail { color: var(--gray-500); }
+
+#progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--line);
+}
+#progress-fill {
+  height: 100%;
+  width: 0;
+  background: var(--ink);
+  transition: width var(--dur) var(--ease-out);
+}
+#stage[data-mode="dark"] #progress      { background: rgba(244,246,251,0.16); }
+#stage[data-mode="dark"] #progress-fill { background: var(--gray-100); }
+
+/* ------------------------------------------------------------- overlays --- */
+
+#notes {
+  top: 0;
+  right: 0;
+  width: 760px;
+  height: 1080px;
+  background: var(--gray-50);
+  border-left: 1px solid var(--line-strong);
+  padding: 56px 56px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform var(--dur) var(--ease-out), opacity var(--dur) var(--ease-out), visibility 0s linear var(--dur);
+}
+#notes.is-open {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+  transition: transform var(--dur) var(--ease-out), opacity var(--dur) var(--ease-out), visibility 0s;
+}
+
+.notes-head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line-strong);
+}
+.notes-eyebrow, .notes-pos {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.notes-eyebrow { color: var(--ink); }
+.notes-pos     { color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.notes-scroll { flex: 1 1 auto; overflow-y: auto; padding-right: 8px; }
+.notes-scroll::-webkit-scrollbar { width: 8px; }
+.notes-scroll::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 4px; }
+
+.note-label {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+.note-lead {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 34px;
+  line-height: 1.2;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin: 0 0 18px;
+}
+.note-text {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 27px;
+  line-height: 1.5;
+  color: var(--text-body);
+  margin: 0 0 26px;
+}
+.note-meta {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0 0 24px;
+}
+.notes-scroll hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0 0 24px;
+}
+
+#help {
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(20,22,26,0.72);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur) var(--ease-out), visibility 0s linear var(--dur);
+}
+#help.is-open { opacity: 1; visibility: visible; transition: opacity var(--dur) var(--ease-out), visibility 0s; }
+
+.help-card {
+  width: 1120px;
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  box-shadow: 8px 8px 0 0 var(--gray-400);
+  padding: 56px 64px 60px;
+}
+.help-eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 34px;
+}
+.help-list {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 22px 40px;
+  margin: 0;
+}
+.help-list dt {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 26px;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+.help-list dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.4;
+  color: var(--text-body);
+}
+
+/* -------------------------------------------------------------- motion ---- */
+
+@media (prefers-reduced-motion: reduce) {
+  #stage, .slide, #builds iframe, #notes, #help, #progress-fill, #rail {
+    transition-duration: 0s !important;
+  }
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Presenter companion — Stochastic parrots and stochastic spiders</title>
+<meta name="description" content="Second-screen companion for the lecture deck: run-through notes, source summaries and spoken notes for the slide on the other screen.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="companion.css">
+<meta name="robots" content="noindex">
+<script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js').catch(function () {});</script>
+</head>
+<body>
+
+<div id="app">
+
+  <aside id="rail">
+    <div class="rail-head">
+      <span class="mono-head">Slides</span>
+      <span class="rail-total mono" id="rail-total"></span>
+    </div>
+    <nav class="rail-scroll" id="rail-list" aria-label="Slides"></nav>
+  </aside>
+
+  <main id="main">
+
+    <header id="head">
+      <div class="head-meta">
+        <span class="counter mono" id="counter">— / —</span>
+        <span class="section" id="section"></span>
+        <span class="slug mono" id="slug"></span>
+        <span class="buildstep mono" id="buildstep" hidden></span>
+      </div>
+      <div class="head-tools">
+        <!-- The light and one word only. Whatever the light MEANS goes on the
+             hint line below, where a sentence does not squeeze the slide's
+             section label out of this row. -->
+        <span class="link-status" id="link-status" data-linked="no">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="link-text">no deck</span>
+        </span>
+        <button type="button" class="btn" id="btn-details" title="Show the summary, sources and decision record (d)" aria-pressed="false">Details</button>
+        <button type="button" class="btn" id="btn-prev" title="Previous step (left arrow)">Back</button>
+        <button type="button" class="btn is-primary" id="btn-next" title="Next step (right arrow)">Next</button>
+      </div>
+    </header>
+
+    <p class="link-hint" id="link-hint" role="status" hidden></p>
+
+    <div class="main-scroll" id="main-scroll">
+      <section class="slide-head">
+        <h1 class="display" id="display"></h1>
+        <p class="body" id="body"></p>
+        <p class="caption" id="caption"></p>
+      </section>
+
+      <section class="blocks" id="blocks"></section>
+
+      <footer class="next-up" id="next-up"></footer>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="companion.js"></script>
+</body>
+</html>
