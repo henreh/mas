@@ -1,586 +1,592 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex">
-<title>Presenter script · The multi-agent society</title>
-<style>
-:root { --paper:#f7f8fa; --card:#fff; --ink:#14181f; --muted:#5d6675; --rule:#dfe3ea; --accent:#234a8f; }
-* { box-sizing:border-box; }
-body { margin:0; background:var(--paper); color:var(--ink); font:18px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; -webkit-text-size-adjust:100%; }
-main { max-width:640px; margin:0 auto; padding:16px; }
-header h1 { font-size:22px; margin:8px 0 2px; }
-header p { margin:0 0 6px; color:var(--muted); font-size:14px; }
-.key { font-size:13px; color:var(--muted); border-top:1px solid var(--rule); padding-top:8px; }
-.key b { color:var(--ink); }
-h2 { font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin:28px 0 8px; }
-section { background:var(--card); border:1px solid var(--rule); border-radius:8px; padding:12px; margin:0 0 14px; }
-section img { display:block; width:100%; height:auto; border:1px solid var(--rule); border-radius:4px; }
-.pos { margin:8px 0 0; font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums; }
-.pos b { color:var(--accent); font-size:15px; }
-h3 { margin:2px 0 8px; font-size:17px; line-height:1.25; }
-ul { list-style:none; margin:0; padding:0; }
-li { position:relative; padding:5px 0 5px 26px; }
-li::before { position:absolute; left:4px; top:5px; color:var(--muted); content:"–"; }
-li.read { font-weight:650; background:#eef2f9; border-left:3px solid var(--accent); padding-left:23px; }
-li.read::before { content:"!"; color:var(--accent); font-weight:800; left:8px; }
-li.ask { font-style:italic; }
-li.ask::before { content:"?"; color:var(--accent); font-style:normal; font-weight:800; }
-li.jump { color:var(--accent); }
-li.jump::before { content:"→"; color:var(--accent); left:2px; }
-li.pocket { color:var(--muted); font-size:16px; }
-li.pocket::before { content:"~"; }
-li.step-label { padding:8px 0 0; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
-li.step-label::before, li.none::before { content:""; }
-li.none { color:var(--muted); padding-left:0; }
-@page { size:4.5in 8in; margin:0.25in; }
-@media print {
-  body { background:#fff; font-size:12.5pt; }
-  main { padding:0; max-width:none; }
-  header { break-after:page; }
-  h2 { margin:0 0 6px; break-after:avoid; }
-  section { border:0; padding:0; margin:0; break-after:page; break-inside:avoid; }
-  li.pocket { font-size:11pt; }
-}
-</style>
-</head>
-<body>
-<main>
-<header>
-<h1>The multi-agent society</h1>
-<p>Dr Henry Franks — Chief Architect, Climate Policy Radar</p>
-<p>Presenter script, 88 steps. The number on each block is the counter the deck shows.</p>
-<p class="key"><b>–</b> say · <b>!</b> read verbatim · <b>?</b> question to the room · <b>→</b> jump-off to a reading slide · <b>~</b> pocket, only if asked</p>
-</header>
-<h2>Where we were, where we are</h2><section id="n1">
-<img src="notes/001.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>1</b> / 88</p>
-<h3>The multi-agent society</h3>
-<ul><li class="say">Henry Franks, computer scientist. Chief Architect at Climate Policy Radar: ML on the world&#x27;s climate law</li><li class="say">Opinions today are mine, not the company&#x27;s</li><li class="say">A decade of these talks. This year the hardest to cut down; the last two weeks alone could fill it</li></ul>
-</section>
+    <html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>Presenter script · The multi-agent society</title>
+    <style>
+    :root { --paper:#f7f8fa; --card:#fff; --ink:#14181f; --muted:#5d6675; --rule:#dfe3ea; --accent:#234a8f; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:18px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; -webkit-text-size-adjust:100%; }
+    main { max-width:640px; margin:0 auto; padding:16px; }
+    header h1 { font-size:22px; margin:8px 0 2px; }
+    header p { margin:0 0 6px; color:var(--muted); font-size:14px; }
+    .key { font-size:13px; color:var(--muted); border-top:1px solid var(--rule); padding-top:8px; }
+    .key b { color:var(--ink); }
+    h2 { font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin:28px 0 8px; }
+    section { background:var(--card); border:1px solid var(--rule); border-radius:8px; padding:12px; margin:0 0 14px; }
+    section img { display:block; width:100%; height:auto; border:1px solid var(--rule); border-radius:4px; }
+    .pos { margin:8px 0 0; font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums; }
+    .pos b { color:var(--accent); font-size:15px; }
+    h3 { margin:2px 0 8px; font-size:17px; line-height:1.25; }
+    ul { list-style:none; margin:0; padding:0; }
+    li { position:relative; padding:5px 0 5px 26px; }
+    li::before { position:absolute; left:4px; top:5px; color:var(--muted); content:"–"; }
+    li.read { font-weight:650; background:#eef2f9; border-left:3px solid var(--accent); padding-left:23px; }
+    li.read::before { content:"!"; color:var(--accent); font-weight:800; left:8px; }
+    li.ask { font-style:italic; }
+    li.ask::before { content:"?"; color:var(--accent); font-style:normal; font-weight:800; }
+    li.jump { color:var(--accent); }
+    li.jump::before { content:"→"; color:var(--accent); left:2px; }
+    li.pocket { color:var(--muted); font-size:16px; }
+    li.pocket::before { content:"~"; }
+    li.step-label { padding:8px 0 0; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+    li.step-label::before, li.none::before { content:""; }
+    li.none { color:var(--muted); padding-left:0; }
+    .tx p { margin:0 0 10px; }
+    .tx p.none { color:var(--muted); }
+    .tx small { color:var(--muted); font-size:.8em; }
+    @page { size:4.5in 8in; margin:0.25in; }
+    @media print {
+      body { background:#fff; font-size:12.5pt; }
+      main { padding:0; max-width:none; }
+      header { break-after:page; }
+      h2 { margin:0 0 6px; break-after:avoid; }
+      section { border:0; padding:0; margin:0; break-after:page; break-inside:avoid; }
+      li.pocket { font-size:11pt; }
+      section.long { break-inside:auto; }
+      .tx p { orphans:2; widows:2; }
+    }
+    </style>
+    </head>
+    <body>
+    <main>
+    <header>
+    <h1>The multi-agent society</h1>
+    <p>Dr Henry Franks — Chief Architect, Climate Policy Radar</p>
+    <p>Presenter script, 88 steps. The number on each block is the counter the deck shows.</p>
+    <p class="key"><b>–</b> say · <b>!</b> read verbatim · <b>?</b> question to the room · <b>→</b> jump-off to a reading slide · <b>~</b> pocket, only if asked</p>
+    </header>
+    <h2>Where we were, where we are</h2><section id="n1">
+    <img src="notes/001.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>1</b> / 88</p>
+    <h3>The multi-agent society</h3>
+    <ul><li class="say">Henry Franks, computer scientist. Chief Architect at Climate Policy Radar: ML on the world&#x27;s climate law</li><li class="say">Opinions today are mine, not the company&#x27;s</li><li class="say">A decade of these talks. This year the hardest to cut down; the last two weeks alone could fill it</li></ul>
+    </section>
 <section id="n2">
-<img src="notes/002.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>2</b> / 88</p>
-<h3>This was my slide from 2023</h3>
-<ul><li class="say">2023: computer capability against human capability, over time</li><li class="say">Clearly improving, just after ChatGPT. Clearly still below us on most axes</li></ul>
-</section>
+    <img src="notes/002.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>2</b> / 88</p>
+    <h3>This was my slide from 2023</h3>
+    <ul><li class="say">2023: computer capability against human capability, over time</li><li class="say">Clearly improving, just after ChatGPT. Clearly still below us on most axes</li></ul>
+    </section>
 <section id="n3">
-<img src="notes/003.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>3</b> / 88</p>
-<h3>This was my slide from 2025</h3>
-<ul><li class="say">2025: murkier. A wide variety of tasks where AI had gone superhuman</li><li class="say">Give it an exam question, it beat us. The question then: below the crossover, or above?</li></ul>
-</section>
+    <img src="notes/003.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>3</b> / 88</p>
+    <h3>This was my slide from 2025</h3>
+    <ul><li class="say">2025: murkier. A wide variety of tasks where AI had gone superhuman</li><li class="say">Give it an exam question, it beat us. The question then: below the crossover, or above?</li></ul>
+    </section>
 <section id="n4">
-<img src="notes/004.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>4</b> / 88</p>
-<h3>Today</h3>
-<ul><li class="read">Today: we are above the line</li><li class="say">On the precipice of a society in which we are no longer the most intelligent entity acting in it</li></ul>
-</section>
+    <img src="notes/004.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>4</b> / 88</p>
+    <h3>Today</h3>
+    <ul><li class="read">Today: we are above the line</li><li class="say">On the precipice of a society in which we are no longer the most intelligent entity acting in it</li></ul>
+    </section>
 <h2>Capability, and the absence of a plan</h2><section id="n5">
-<img src="notes/005.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>5</b> / 88</p>
-
-<ul><li class="say">A benchmark is an exam. Sit the AI the exam, grade it, compare with humans</li><li class="say">Imperfect: 80% in English tells you something about me, not who I am</li><li class="say">Superhuman today: visual reasoning, reading comprehension, competition maths, PhD science, software engineering</li><li class="pocket">pre-empt &quot;compared to whom?&quot;: mostly domain experts, some averages. Bar exam: humans 50%, GPT-4 90%, several doublings ago</li></ul>
-</section>
+    <img src="notes/005.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>5</b> / 88</p>
+    
+    <ul><li class="say">A benchmark is an exam. Sit the AI the exam, grade it, compare with humans</li><li class="say">Imperfect: 80% in English tells you something about me, not who I am</li><li class="say">Superhuman today: visual reasoning, reading comprehension, competition maths, PhD science, software engineering</li><li class="pocket">pre-empt &quot;compared to whom?&quot;: mostly domain experts, some averages. Bar exam: humans 50%, GPT-4 90%, several doublings ago</li></ul>
+    </section>
 <section id="n6">
-<img src="notes/006.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>6</b> / 88</p>
-
-<ul><li class="say">Last week: OpenAI claims Navier-Stokes. One of seven Clay million-dollar problems, open 90 years</li><li class="say">Clay rules: two years of peer review before it counts. Written for human pace</li><li class="say">Frontier AI now beats most research mathematicians; open problems are falling monthly</li><li class="ask">Thaler v Comptroller, Supreme Court 2023: an AI cannot be an inventor. 10,000 agents wrote this proof. Who is the author?</li><li class="say">Academic now. It will not stay academic</li><li class="jump">R6 maths</li></ul>
-</section>
+    <img src="notes/006.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>6</b> / 88</p>
+    
+    <ul><li class="say">Last week: OpenAI claims Navier-Stokes. One of seven Clay million-dollar problems, open 90 years</li><li class="say">Clay rules: two years of peer review before it counts. Written for human pace</li><li class="say">Frontier AI now beats most research mathematicians; open problems are falling monthly</li><li class="ask">Thaler v Comptroller, Supreme Court 2023: an AI cannot be an inventor. 10,000 agents wrote this proof. Who is the author?</li><li class="say">Academic now. It will not stay academic</li><li class="jump">R6 maths</li></ul>
+    </section>
 <section id="n7">
-<img src="notes/007.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>7</b> / 88 · step 1 of 2</p>
-<h3>AI capability is not plateauing.</h3>
-<ul><li class="say">Stanford&#x27;s 2026 AI Index: read it, the state of the union</li><li class="read">Doubling every four months. Eighteen months ago, every seven. The acceleration is accelerating</li><li class="step-label">Step 1 of 2</li><li class="say">Capability is not plateauing. No S-curve in sight</li></ul>
-</section>
+    <img src="notes/007.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>7</b> / 88 · step 1 of 2</p>
+    <h3>AI capability is not plateauing.</h3>
+    <ul><li class="say">Stanford&#x27;s 2026 AI Index: read it, the state of the union</li><li class="read">Doubling every four months. Eighteen months ago, every seven. The acceleration is accelerating</li><li class="step-label">Step 1 of 2</li><li class="say">Capability is not plateauing. No S-curve in sight</li></ul>
+    </section>
 <section id="n8">
-<img src="notes/008.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>8</b> / 88 · step 2 of 2</p>
-<h3>AI capability is not plateauing.</h3>
-<ul><li class="step-label">Step 2 of 2</li><li class="read">53% of US adults within three years: faster than the internet, faster than the PC</li></ul>
-</section>
+    <img src="notes/008.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>8</b> / 88 · step 2 of 2</p>
+    <h3>AI capability is not plateauing.</h3>
+    <ul><li class="step-label">Step 2 of 2</li><li class="read">53% of US adults within three years: faster than the internet, faster than the PC</li></ul>
+    </section>
 <section id="n9">
-<img src="notes/009.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>9</b> / 88</p>
-<h3>“The future that happens will be the future to which we as society decide to guide this powerful tool. That will be a series of technology enabled policy choices and not technology choices”</h3>
-<ul><li class="read">Read the quote. &quot;Technology-enabled policy choices, not technology choices&quot;</li><li class="say">Khosla is a VC, not without incentive. The sentence is still right</li><li class="say">I am a technologist, not a lawyer. I will show you where the technology breaks the assumptions your rules were written under</li><li class="say">I will not say what the law should be. That is your job. Take the questions with you</li><li class="say">Seven reading slides at the end, R1 to R7. I will point as we go</li></ul>
-</section>
+    <img src="notes/009.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>9</b> / 88</p>
+    <h3>“The future that happens will be the future to which we as society decide to guide this powerful tool. That will be a series of technology enabled policy choices and not technology choices”</h3>
+    <ul><li class="read">Read the quote. &quot;Technology-enabled policy choices, not technology choices&quot;</li><li class="say">Khosla is a VC, not without incentive. The sentence is still right</li><li class="say">I am a technologist, not a lawyer. I will show you where the technology breaks the assumptions your rules were written under</li><li class="say">I will not say what the law should be. That is your job. Take the questions with you</li><li class="say">Seven reading slides at the end, R1 to R7. I will point as we go</li></ul>
+    </section>
 <section id="n10">
-<img src="notes/010.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>10</b> / 88</p>
-<h3>“This year&#x27;s Index reveals a widening gap between what AI can do and how prepared we are to manage it.”</h3>
-<ul><li class="read">&quot;A widening gap between what AI can do and how prepared we are to manage it&quot;</li><li class="say">Safety, responsible deployment, harm mitigation: an order of magnitude less money than capability. Every year I have said it</li></ul>
-</section>
+    <img src="notes/010.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>10</b> / 88</p>
+    <h3>“This year&#x27;s Index reveals a widening gap between what AI can do and how prepared we are to manage it.”</h3>
+    <ul><li class="read">&quot;A widening gap between what AI can do and how prepared we are to manage it&quot;</li><li class="say">Safety, responsible deployment, harm mitigation: an order of magnitude less money than capability. Every year I have said it</li></ul>
+    </section>
 <section id="n11">
-<img src="notes/011.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>11</b> / 88</p>
-
-<ul><li class="say">It is really hard to regulate. Policymakers are rarely technologists</li><li class="say">Say nothing clever. Let them read the caption. Same slide since 2018</li></ul>
-</section>
+    <img src="notes/011.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>11</b> / 88</p>
+    
+    <ul><li class="say">It is really hard to regulate. Policymakers are rarely technologists</li><li class="say">Say nothing clever. Let them read the caption. Same slide since 2018</li></ul>
+    </section>
 <section id="n12">
-<img src="notes/012.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>12</b> / 88</p>
-<h3>AI is both benefitting and harming society</h3>
-<ul><li class="say">Both. We have significant evidence of both now</li></ul>
-</section>
+    <img src="notes/012.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>12</b> / 88</p>
+    <h3>AI is both benefitting and harming society</h3>
+    <ul><li class="say">Both. We have significant evidence of both now</li></ul>
+    </section>
 <section id="n13">
-<img src="notes/013.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>13</b> / 88</p>
-
-<ul><li class="say">Patents: exponential. Legal cases: exponential. FDA-approved AI devices: exponential</li><li class="say">Mapping the planet, attacking climate change, AI-designed cancer treatments in Phase 3</li><li class="pocket">wink: most of those cases are contract and IP. The interesting ones are not yet filed</li></ul>
-</section>
+    <img src="notes/013.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>13</b> / 88</p>
+    
+    <ul><li class="say">Patents: exponential. Legal cases: exponential. FDA-approved AI devices: exponential</li><li class="say">Mapping the planet, attacking climate change, AI-designed cancer treatments in Phase 3</li><li class="pocket">wink: most of those cases are contract and IP. The interesting ones are not yet filed</li></ul>
+    </section>
 <section id="n14">
-<img src="notes/014.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>14</b> / 88</p>
-
-<ul><li class="say">Criminals adopt first, every technology</li><li class="read">Fraud, scams and manipulation: the biggest growth category of AI incidents (MIT tracker)</li><li class="read">INTERPOL: AI fuels more than half of cybercrime in Africa</li></ul>
-</section>
+    <img src="notes/014.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>14</b> / 88</p>
+    
+    <ul><li class="say">Criminals adopt first, every technology</li><li class="read">Fraud, scams and manipulation: the biggest growth category of AI incidents (MIT tracker)</li><li class="read">INTERPOL: AI fuels more than half of cybercrime in Africa</li></ul>
+    </section>
 <section id="n15">
-<img src="notes/015.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>15</b> / 88</p>
-<h3>Deepfakes are the sharp end of this.</h3>
-<ul><li class="say">Deepfakes are the sharp end. Three seconds of voice is enough; fraudsters ring, wait for voicemail, record the greeting</li><li class="read">Arizona: a cloned teenager&#x27;s voice, a fake kidnap call to her mother, a million-dollar ransom demand</li><li class="say">And we cannot reliably detect them. Text: mathematically. Video: a coin flip in the detection challenge</li><li class="say">Parliament&#x27;s answer: two offences, sharing 2024, creating 2025. It criminalised the act and said nothing about the model. Hold that shape</li></ul>
-</section>
+    <img src="notes/015.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>15</b> / 88</p>
+    <h3>Deepfakes are the sharp end of this.</h3>
+    <ul><li class="say">Deepfakes are the sharp end. Three seconds of voice is enough; fraudsters ring, wait for voicemail, record the greeting</li><li class="read">Arizona: a cloned teenager&#x27;s voice, a fake kidnap call to her mother, a million-dollar ransom demand</li><li class="say">And we cannot reliably detect them. Text: mathematically. Video: a coin flip in the detection challenge</li><li class="say">Parliament&#x27;s answer: two offences, sharing 2024, creating 2025. It criminalised the act and said nothing about the model. Hold that shape</li></ul>
+    </section>
 <section id="n16">
-<img src="notes/016.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>16</b> / 88</p>
-<h3>The problem is not just the existence of fakes, it’s the removal of trust in any media.</h3>
-<ul><li class="say">Not just the fakes. It removes trust in all media</li><li class="read">&quot;Seeing and hearing are no longer believing.&quot; New for our society</li></ul>
-</section>
+    <img src="notes/016.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>16</b> / 88</p>
+    <h3>The problem is not just the existence of fakes, it’s the removal of trust in any media.</h3>
+    <ul><li class="say">Not just the fakes. It removes trust in all media</li><li class="read">&quot;Seeing and hearing are no longer believing.&quot; New for our society</li></ul>
+    </section>
 <section id="n17">
-<img src="notes/017.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>17</b> / 88</p>
-<h3>Under current US rules, a witness who says “that sounds like him” can be enough to admit a recording.</h3>
-<ul><li class="say">US rule 901(b)(5): a witness saying &quot;that sounds like him&quot; gets a recording in</li><li class="say">Written when a fake voice cost a studio. Now: 3 seconds of voicemail, under a dollar, 60 seconds of my time</li><li class="ask">Draft rule 901(c) turns on &quot;a credible claim&quot; of fabrication. What is one, now?</li><li class="say">England has no rule 901. Recordings come in on relevance and provenance; weight is for the tribunal</li><li class="ask">So the English question is weight. What weight can any recording now carry?</li><li class="jump">R3 courts</li></ul>
-</section>
+    <img src="notes/017.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>17</b> / 88</p>
+    <h3>Under current US rules, a witness who says “that sounds like him” can be enough to admit a recording.</h3>
+    <ul><li class="say">US rule 901(b)(5): a witness saying &quot;that sounds like him&quot; gets a recording in</li><li class="say">Written when a fake voice cost a studio. Now: 3 seconds of voicemail, under a dollar, 60 seconds of my time</li><li class="ask">Draft rule 901(c) turns on &quot;a credible claim&quot; of fabrication. What is one, now?</li><li class="say">England has no rule 901. Recordings come in on relevance and provenance; weight is for the tribunal</li><li class="ask">So the English question is weight. What weight can any recording now carry?</li><li class="jump">R3 courts</li></ul>
+    </section>
 <section id="n18">
-<img src="notes/018.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>18</b> / 88</p>
-<h3>Two new Federal Rules of Evidence are being drafted.</h3>
-<ul><li class="say">Two US drafts: 707 for machine-generated evidence, 901(c) for the deepfake objection</li><li class="read">Shelved in May. 707: &quot;not recommended for action at this time&quot;. 901(c): &quot;not warranted&quot;, a survey found fifteen judges had met the issue</li><li class="say">Earliest 707 could now take effect: December 2029. And I do not think they are enough anyway</li><li class="read">Tesla, 2023: Musk&#x27;s recorded Autopilot claims &quot;might be deepfakes&quot;, so no deposition. Judge Pennypacker: &quot;deeply troubling&quot;; public figures could &quot;hide behind the potential for their recorded statements being a deep fake to avoid taking ownership of what they did actually say and do&quot;</li><li class="say">The liar&#x27;s dividend: once anything can be fake, the real becomes deniable. The rule-makers are waiting for the cases; some will be yours</li><li class="say">England&#x27;s version: the common law presumes the computer worked. Horizon showed the cost. Consulted 2025, no answer yet</li><li class="ask">Now the computer reasons, and it is a black box. Does the presumption survive?</li><li class="jump">R3 courts</li></ul>
-</section>
+    <img src="notes/018.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>18</b> / 88</p>
+    <h3>Two new Federal Rules of Evidence are being drafted.</h3>
+    <ul><li class="say">Two US drafts: 707 for machine-generated evidence, 901(c) for the deepfake objection</li><li class="read">Shelved in May. 707: &quot;not recommended for action at this time&quot;. 901(c): &quot;not warranted&quot;, a survey found fifteen judges had met the issue</li><li class="say">Earliest 707 could now take effect: December 2029. And I do not think they are enough anyway</li><li class="read">Tesla, 2023: Musk&#x27;s recorded Autopilot claims &quot;might be deepfakes&quot;, so no deposition. Judge Pennypacker: &quot;deeply troubling&quot;; public figures could &quot;hide behind the potential for their recorded statements being a deep fake to avoid taking ownership of what they did actually say and do&quot;</li><li class="say">The liar&#x27;s dividend: once anything can be fake, the real becomes deniable. The rule-makers are waiting for the cases; some will be yours</li><li class="say">England&#x27;s version: the common law presumes the computer worked. Horizon showed the cost. Consulted 2025, no answer yet</li><li class="ask">Now the computer reasons, and it is a black box. Does the presumption survive?</li><li class="jump">R3 courts</li></ul>
+    </section>
 <section id="n19">
-<img src="notes/019.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>19</b> / 88</p>
-
-<ul><li class="say">Nowhere is dual use sharper than biotech. 2022: a drug-discovery model</li><li class="say">LD50: the dose that kills half. Medicine wants it high. The model is told: maximise LD50</li><li class="say">Flip the sign. Minimise. Same instruction</li><li class="read">Six hours, one server, 40,000 molecules. VX among them, plus new ones predicted worse</li><li class="say">Design is not synthesis. The cost that collapsed is the design step</li><li class="pocket">wink: publish 40,000 molecules, are they prior art? Someone did it with every invention, and a lawyer did it with 68 billion melodies</li><li class="jump">R7 governing</li></ul>
-</section>
+    <img src="notes/019.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>19</b> / 88</p>
+    
+    <ul><li class="say">Nowhere is dual use sharper than biotech. 2022: a drug-discovery model</li><li class="say">LD50: the dose that kills half. Medicine wants it high. The model is told: maximise LD50</li><li class="say">Flip the sign. Minimise. Same instruction</li><li class="read">Six hours, one server, 40,000 molecules. VX among them, plus new ones predicted worse</li><li class="say">Design is not synthesis. The cost that collapsed is the design step</li><li class="pocket">wink: publish 40,000 molecules, are they prior art? Someone did it with every invention, and a lawyer did it with 68 billion melodies</li><li class="jump">R7 governing</li></ul>
+    </section>
 <section id="n20">
-<img src="notes/020.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>20</b> / 88</p>
-<h3>“We have no experience with a technology that can be adopted quickly or that can think and move like a human.”</h3>
-<ul><li class="read">Bill Gates, August: &quot;no experience with a technology adopted this quickly, or that can think and move like a human&quot;</li><li class="read">&quot;There is no plan to ease the entry into the AI era&quot;</li><li class="say">I echo it. The next year or two is when we form one</li></ul>
-</section>
+    <img src="notes/020.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>20</b> / 88</p>
+    <h3>“We have no experience with a technology that can be adopted quickly or that can think and move like a human.”</h3>
+    <ul><li class="read">Bill Gates, August: &quot;no experience with a technology adopted this quickly, or that can think and move like a human&quot;</li><li class="read">&quot;There is no plan to ease the entry into the AI era&quot;</li><li class="say">I echo it. The next year or two is when we form one</li></ul>
+    </section>
 <h2>Quick AI basics</h2><section id="n21">
-<img src="notes/021.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>21</b> / 88</p>
-<h3>What is AI?</h3>
-<ul><li class="say">Before any policy argument goes further: what even is AI? A very simplified model</li></ul>
-</section>
+    <img src="notes/021.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>21</b> / 88</p>
+    <h3>What is AI?</h3>
+    <ul><li class="say">Before any policy argument goes further: what even is AI? A very simplified model</li></ul>
+    </section>
 <section id="n22">
-<img src="notes/022.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>22</b> / 88</p>
-<h3>AI is about predictions</h3>
-<ul><li class="say">Since the 1970s, machine learning is about predictions</li><li class="say">An image: is there a cat in it?</li></ul>
-</section>
+    <img src="notes/022.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>22</b> / 88</p>
+    <h3>AI is about predictions</h3>
+    <ul><li class="say">Since the 1970s, machine learning is about predictions</li><li class="say">An image: is there a cat in it?</li></ul>
+    </section>
 <section id="n23">
-<img src="notes/023.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>23</b> / 88</p>
-<h3>AI is about predictions</h3>
-<ul><li class="say">The start of a sentence: &quot;The fox bit the ___&quot;. Predict the next word</li></ul>
-</section>
+    <img src="notes/023.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>23</b> / 88</p>
+    <h3>AI is about predictions</h3>
+    <ul><li class="say">The start of a sentence: &quot;The fox bit the ___&quot;. Predict the next word</li></ul>
+    </section>
 <section id="n24">
-<img src="notes/024.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>24</b> / 88</p>
-<h3>AI is about predictions</h3>
-<ul><li class="say">A patient history: predict the diagnosis</li><li class="say">It happened: a blinded trial had Google&#x27;s AI matching GPs</li></ul>
-</section>
+    <img src="notes/024.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>24</b> / 88</p>
+    <h3>AI is about predictions</h3>
+    <ul><li class="say">A patient history: predict the diagnosis</li><li class="say">It happened: a blinded trial had Google&#x27;s AI matching GPs</li></ul>
+    </section>
 <section id="n25">
-<img src="notes/025.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>25</b> / 88</p>
-<h3>So how does it learn?</h3>
-<ul><li class="say">We do not design AI. We do not build it. We grow it</li><li class="say">Curate examples, correct and incorrect. Predict, get it wrong, adjust the insides a little. Many, many times</li><li class="say">It converges on the patterns that make the prediction right. Nobody chose them</li></ul>
-</section>
+    <img src="notes/025.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>25</b> / 88</p>
+    <h3>So how does it learn?</h3>
+    <ul><li class="say">We do not design AI. We do not build it. We grow it</li><li class="say">Curate examples, correct and incorrect. Predict, get it wrong, adjust the insides a little. Many, many times</li><li class="say">It converges on the patterns that make the prediction right. Nobody chose them</li></ul>
+    </section>
 <section id="n26">
-<img src="notes/026.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>26</b> / 88</p>
-<h3>You can learn any task you can create a set of example “correct” and “incorrect” predictions for.</h3>
-<ul><li class="say">The claim. Any task you can build a set of correct and incorrect examples for</li></ul>
-</section>
+    <img src="notes/026.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>26</b> / 88</p>
+    <h3>You can learn any task you can create a set of example “correct” and “incorrect” predictions for.</h3>
+    <ul><li class="say">The claim. Any task you can build a set of correct and incorrect examples for</li></ul>
+    </section>
 <section id="n27">
-<img src="notes/027.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>27</b> / 88</p>
-<h3>You can learn any task you can create a set of example “correct” and “incorrect” predictions for</h3>
-<ul><li class="say">Refrain, pass one. A road: draw boxes round each object and label it. Car, truck, bicycle, person</li><li class="say">The examples come from people doing exactly that, tediously, for months</li><li class="pocket">wink: every CAPTCHA that asks for the squares with traffic lights is this labelling task. You have been training these models for years</li></ul>
-</section>
+    <img src="notes/027.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>27</b> / 88</p>
+    <h3>You can learn any task you can create a set of example “correct” and “incorrect” predictions for</h3>
+    <ul><li class="say">Refrain, pass one. A road: draw boxes round each object and label it. Car, truck, bicycle, person</li><li class="say">The examples come from people doing exactly that, tediously, for months</li><li class="pocket">wink: every CAPTCHA that asks for the squares with traffic lights is this labelling task. You have been training these models for years</li></ul>
+    </section>
 <section id="n28">
-<img src="notes/028.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>28</b> / 88</p>
-<h3>You can learn any task you can create a set of example “correct” and “incorrect” predictions for</h3>
-<ul><li class="say">Now predict actions instead of boxes: steer left, brake. Waymo, decades of data</li><li class="read">Per mile: fewer airbag deployments, fewer injuries, fewer police reports than human drivers</li><li class="ask">Parliament answered this once, on paper, for cars: two UK Acts, 2018 and 2024. The insurer pays first, and there is a new kind of legal person that carries responsibility while the machine drives. Neither has bitten yet. Why only cars?</li></ul>
-</section>
+    <img src="notes/028.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>28</b> / 88</p>
+    <h3>You can learn any task you can create a set of example “correct” and “incorrect” predictions for</h3>
+    <ul><li class="say">Now predict actions instead of boxes: steer left, brake. Waymo, decades of data</li><li class="read">Per mile: fewer airbag deployments, fewer injuries, fewer police reports than human drivers</li><li class="ask">Parliament answered this once, on paper, for cars: two UK Acts, 2018 and 2024. The insurer pays first, and there is a new kind of legal person that carries responsibility while the machine drives. Neither has bitten yet. Why only cars?</li></ul>
+    </section>
 <section id="n29">
-<img src="notes/029.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>29</b> / 88</p>
-<h3>You can learn any task you can create a set of example “correct” and “incorrect” predictions for</h3>
-<ul><li class="say">Bottom rows: predictions. Have a think what from</li><li class="say">MRI scans of people looking at the top row. Trained to predict the image from the scan. Some way to reading a mind</li><li class="pocket">wink: every rule of evidence assumes the mind is the one place you cannot search. Freedom of thought is the one absolute right, and it has never needed a remedy</li></ul>
-</section>
+    <img src="notes/029.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>29</b> / 88</p>
+    <h3>You can learn any task you can create a set of example “correct” and “incorrect” predictions for</h3>
+    <ul><li class="say">Bottom rows: predictions. Have a think what from</li><li class="say">MRI scans of people looking at the top row. Trained to predict the image from the scan. Some way to reading a mind</li><li class="pocket">wink: every rule of evidence assumes the mind is the one place you cannot search. Freedom of thought is the one absolute right, and it has never needed a remedy</li></ul>
+    </section>
 <section id="n30">
-<img src="notes/030.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>30</b> / 88</p>
-<h3>AI makes predictions based on correlations in the set of examples used to teach it</h3>
-<ul><li class="say">Takeaway: predictions from correlations in the examples. The examples: the training set. The adjusting: training</li></ul>
-</section>
+    <img src="notes/030.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>30</b> / 88</p>
+    <h3>AI makes predictions based on correlations in the set of examples used to teach it</h3>
+    <ul><li class="say">Takeaway: predictions from correlations in the examples. The examples: the training set. The adjusting: training</li></ul>
+    </section>
 <section id="n31">
-<img src="notes/031.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>31</b> / 88</p>
-
-<ul><li class="say">What it learns: features. Edges, then eyes and noses, then faces</li><li class="say">Nobody programmed any of it. Remember the word: three later beats hang on it</li><li class="ask">Getty v Stability, High Court in London, November 2025: a model is not a copy of what it learned from, its weights are &quot;purely the product of the patterns and features which they have learnt&quot;. Is a feature a copy? Getty is appealing</li><li class="jump">R1 models</li></ul>
-</section>
+    <img src="notes/031.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>31</b> / 88</p>
+    
+    <ul><li class="say">What it learns: features. Edges, then eyes and noses, then faces</li><li class="say">Nobody programmed any of it. Remember the word: three later beats hang on it</li><li class="ask">Getty v Stability, High Court in London, November 2025: a model is not a copy of what it learned from, its weights are &quot;purely the product of the patterns and features which they have learnt&quot;. Is a feature a copy? Getty is appealing</li><li class="jump">R1 models</li></ul>
+    </section>
 <section id="n32">
-<img src="notes/032.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>32</b> / 88</p>
-<h3>So you have to be really careful what examples you give it</h3>
-<ul><li class="say">So be careful what you feed it. Skin lesions, labelled cancerous or not. Looked great</li><li class="read">It had learned: ruler equals cancer. Doctors only measured the ones they already knew</li><li class="say">Scale that to the sum of human output, and every accident in the data is in the model</li></ul>
-</section>
+    <img src="notes/032.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>32</b> / 88</p>
+    <h3>So you have to be really careful what examples you give it</h3>
+    <ul><li class="say">So be careful what you feed it. Skin lesions, labelled cancerous or not. Looked great</li><li class="read">It had learned: ruler equals cancer. Doctors only measured the ones they already knew</li><li class="say">Scale that to the sum of human output, and every accident in the data is in the model</li></ul>
+    </section>
 <section id="n33">
-<img src="notes/033.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>33</b> / 88</p>
-<h3>A lot of correlations are reflections of our societal biases</h3>
-<ul><li class="say">A lot of correlations are our biases. Early DALL-E, prompt: &quot;lawyers&quot;. Say nothing. Let them count</li></ul>
-</section>
+    <img src="notes/033.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>33</b> / 88</p>
+    <h3>A lot of correlations are reflections of our societal biases</h3>
+    <ul><li class="say">A lot of correlations are our biases. Early DALL-E, prompt: &quot;lawyers&quot;. Say nothing. Let them count</li></ul>
+    </section>
 <section id="n34">
-<img src="notes/034.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>34</b> / 88</p>
-
-<ul><li class="say">Same case notes, one word changed</li><li class="read">Mr Smith: complex history, no care package, poor mobility. Mrs Smith: despite her limitations, independent, able to maintain personal care</li><li class="say">The documented gender bias in medicine, learned exactly. You are what you eat</li><li class="ask">Article 15 of the UK GDPR: &quot;meaningful information about the logic involved&quot;. The logic is a correlation nobody wrote. How do you satisfy the right?</li><li class="pocket">pocket: the law&#x27;s responses so far have one shape, a human must also decide (Article 22; Detroit). And a duty to check (Bridges: the police had never seen the training data). Does the duty re-run on every model update?</li></ul>
-</section>
+    <img src="notes/034.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>34</b> / 88</p>
+    
+    <ul><li class="say">Same case notes, one word changed</li><li class="read">Mr Smith: complex history, no care package, poor mobility. Mrs Smith: despite her limitations, independent, able to maintain personal care</li><li class="say">The documented gender bias in medicine, learned exactly. You are what you eat</li><li class="ask">Article 15 of the UK GDPR: &quot;meaningful information about the logic involved&quot;. The logic is a correlation nobody wrote. How do you satisfy the right?</li><li class="pocket">pocket: the law&#x27;s responses so far have one shape, a human must also decide (Article 22; Detroit). And a duty to check (Bridges: the police had never seen the training data). Does the duty re-run on every model update?</li></ul>
+    </section>
 <h2>Reasoning, and agents</h2><section id="n35">
-<img src="notes/035.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>35</b> / 88</p>
-<h3>For the rest of the talk I am going to focus on “reasoning” and “agentic” AI models.</h3>
-<ul><li class="say">Rest of the talk: reasoning and agentic models. They came from language models; they are not restricted to language</li></ul>
-</section>
+    <img src="notes/035.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>35</b> / 88</p>
+    <h3>For the rest of the talk I am going to focus on “reasoning” and “agentic” AI models.</h3>
+    <ul><li class="say">Rest of the talk: reasoning and agentic models. They came from language models; they are not restricted to language</li></ul>
+    </section>
 <section id="n36">
-<img src="notes/036.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>36</b> / 88</p>
-<h3>ChatGPT emerged from the “predict the next word in this sentence” prediction type.</h3>
-<ul><li class="say">ChatGPT came from &quot;predict the next word&quot;. Humans reason through language, so reasoning is a pattern in the examples</li><li class="say">&quot;It just predicts the next word&quot; has become a thought-terminating cliché. Think about what it takes</li></ul>
-</section>
+    <img src="notes/036.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>36</b> / 88</p>
+    <h3>ChatGPT emerged from the “predict the next word in this sentence” prediction type.</h3>
+    <ul><li class="say">ChatGPT came from &quot;predict the next word&quot;. Humans reason through language, so reasoning is a pattern in the examples</li><li class="say">&quot;It just predicts the next word&quot; has become a thought-terminating cliché. Think about what it takes</li></ul>
+    </section>
 <section id="n37">
-<img src="notes/037.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>37</b> / 88 · step 1 of 5</p>
-<h3>“The lawyer cross-examined the witness until she finally admitted that she had been at the ______”</h3>
-<ul><li class="say">Make the room say the word. Then: what did you need to know?</li><li class="say">Lawyer: noun, person, professional, court. Cross-examination: adversarial, a witness, an admission that matters</li><li class="step-label">Step 1 of 5</li><li class="say">Sentence alone. Hold. Make them say a word out loud</li></ul>
-</section>
+    <img src="notes/037.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>37</b> / 88 · step 1 of 5</p>
+    <h3>“The lawyer cross-examined the witness until she finally admitted that she had been at the ______”</h3>
+    <ul><li class="say">Make the room say the word. Then: what did you need to know?</li><li class="say">Lawyer: noun, person, professional, court. Cross-examination: adversarial, a witness, an admission that matters</li><li class="step-label">Step 1 of 5</li><li class="say">Sentence alone. Hold. Make them say a word out loud</li></ul>
+    </section>
 <section id="n38">
-<img src="notes/038.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>38</b> / 88 · step 2 of 5</p>
-<h3>“The lawyer cross-examined the witness until she finally admitted that she had been at the ______”</h3>
-<ul><li class="step-label">Step 2 of 5</li><li class="say">lawyer: noun, a person, a professional, works in a court</li></ul>
-</section>
+    <img src="notes/038.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>38</b> / 88 · step 2 of 5</p>
+    <h3>“The lawyer cross-examined the witness until she finally admitted that she had been at the ______”</h3>
+    <ul><li class="step-label">Step 2 of 5</li><li class="say">lawyer: noun, a person, a professional, works in a court</li></ul>
+    </section>
 <section id="n39">
-<img src="notes/039.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>39</b> / 88 · step 3 of 5</p>
-<h3>“The lawyer cross-examined the witness until she finally admitted that she had been at the ______”</h3>
-<ul><li class="step-label">Step 3 of 5</li><li class="say">cross-examined: adversarial, a courtroom, a witness</li></ul>
-</section>
+    <img src="notes/039.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>39</b> / 88 · step 3 of 5</p>
+    <h3>“The lawyer cross-examined the witness until she finally admitted that she had been at the ______”</h3>
+    <ul><li class="step-label">Step 3 of 5</li><li class="say">cross-examined: adversarial, a courtroom, a witness</li></ul>
+    </section>
 <section id="n40">
-<img src="notes/040.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>40</b> / 88 · step 4 of 5</p>
-<h3>“The lawyer cross-examined the witness until she finally admitted that she had been at the ______”</h3>
-<ul><li class="step-label">Step 4 of 5</li><li class="say">witness, admitted: the admission has to matter to the case</li></ul>
-</section>
+    <img src="notes/040.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>40</b> / 88 · step 4 of 5</p>
+    <h3>“The lawyer cross-examined the witness until she finally admitted that she had been at the ______”</h3>
+    <ul><li class="step-label">Step 4 of 5</li><li class="say">witness, admitted: the admission has to matter to the case</li></ul>
+    </section>
 <section id="n41">
-<img src="notes/041.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>41</b> / 88 · step 5 of 5</p>
-<h3>“The lawyer cross-examined the witness until she finally admitted that she had been at the ______”</h3>
-<ul><li class="step-label">Step 5 of 5</li><li class="say">Every word constrains the next. That is what predicting it takes</li></ul>
-</section>
+    <img src="notes/041.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>41</b> / 88 · step 5 of 5</p>
+    <h3>“The lawyer cross-examined the witness until she finally admitted that she had been at the ______”</h3>
+    <ul><li class="step-label">Step 5 of 5</li><li class="say">Every word constrains the next. That is what predicting it takes</li></ul>
+    </section>
 <section id="n42">
-<img src="notes/042.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>42</b> / 88</p>
-<h3>“To predict the next word you have to understand the sentences.”</h3>
-<ul><li class="read">Hinton: &quot;To predict the next word you have to understand the sentences.&quot; A founder, not a sceptic</li><li class="say">People push back on &quot;understand&quot; and &quot;reason&quot;. Fair. Nobody has articulated the difference, so treat it as reasoning-like. One sentence, move on</li><li class="say">Sentences became paragraphs became documents</li></ul>
-</section>
+    <img src="notes/042.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>42</b> / 88</p>
+    <h3>“To predict the next word you have to understand the sentences.”</h3>
+    <ul><li class="read">Hinton: &quot;To predict the next word you have to understand the sentences.&quot; A founder, not a sceptic</li><li class="say">People push back on &quot;understand&quot; and &quot;reason&quot;. Fair. Nobody has articulated the difference, so treat it as reasoning-like. One sentence, move on</li><li class="say">Sentences became paragraphs became documents</li></ul>
+    </section>
 <section id="n43">
-<img src="notes/043.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>43</b> / 88</p>
-<h3>There are two things we can teach an AI model to predict</h3>
-<ul><li class="say">Two more things we can teach it to predict: a reasoning step, and a decision given a goal</li></ul>
-</section>
+    <img src="notes/043.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>43</b> / 88</p>
+    <h3>There are two things we can teach an AI model to predict</h3>
+    <ul><li class="say">Two more things we can teach it to predict: a reasoning step, and a decision given a goal</li></ul>
+    </section>
 <section id="n44">
-<img src="notes/044.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>44</b> / 88</p>
-<h3>This is an agent: a decision-making entity with goals.</h3>
-<ul><li class="say">Add those and it is a new beast: an agent. A decision-making entity with goals. Autonomy. The 2026 change</li><li class="say">&quot;Agent&quot; is not an AI word: economics, philosophy, game theory. We are agents</li></ul>
-</section>
+    <img src="notes/044.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>44</b> / 88</p>
+    <h3>This is an agent: a decision-making entity with goals.</h3>
+    <ul><li class="say">Add those and it is a new beast: an agent. A decision-making entity with goals. Autonomy. The 2026 change</li><li class="say">&quot;Agent&quot; is not an AI word: economics, philosophy, game theory. We are agents</li></ul>
+    </section>
 <section id="n45">
-<img src="notes/045.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>45</b> / 88</p>
-<h3>There is no agreed definition of “agent”. This decomposition is the one I like.</h3>
-<ul><li class="say">No agreed definition. This one: a goal without a precise how; acts in the world with little human mediation; goal-directed, with actions far from the goal; long-term planning</li><li class="pocket">wink: you cannot draft a duty for a thing you cannot define. The AI Act defines &quot;AI system&quot;; nobody has defined &quot;agent&quot;</li></ul>
-</section>
+    <img src="notes/045.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>45</b> / 88</p>
+    <h3>There is no agreed definition of “agent”. This decomposition is the one I like.</h3>
+    <ul><li class="say">No agreed definition. This one: a goal without a precise how; acts in the world with little human mediation; goal-directed, with actions far from the goal; long-term planning</li><li class="pocket">wink: you cannot draft a duty for a thing you cannot define. The AI Act defines &quot;AI system&quot;; nobody has defined &quot;agent&quot;</li></ul>
+    </section>
 <section id="n46">
-<img src="notes/046.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>46</b> / 88</p>
-<h3>We are delegating agency in everyday life, fast.</h3>
-<ul><li class="read">Agentic traffic on the internet: up almost 8,000% year on year</li><li class="pocket">wink: contract law assumes a mind at the other end. When your agent buys from their agent, whose intention?</li></ul>
-</section>
+    <img src="notes/046.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>46</b> / 88</p>
+    <h3>We are delegating agency in everyday life, fast.</h3>
+    <ul><li class="read">Agentic traffic on the internet: up almost 8,000% year on year</li><li class="pocket">wink: contract law assumes a mind at the other end. When your agent buys from their agent, whose intention?</li></ul>
+    </section>
 <section id="n47">
-<img src="notes/047.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>47</b> / 88</p>
-<h3>And transparency is not keeping up.</h3>
-<ul><li class="read">One in five public agent systems has a safety policy. Under one in ten reports any safety testing</li><li class="say">Transparency is not keeping pace. Again</li></ul>
-</section>
+    <img src="notes/047.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>47</b> / 88</p>
+    <h3>And transparency is not keeping up.</h3>
+    <ul><li class="read">One in five public agent systems has a safety policy. Under one in ten reports any safety testing</li><li class="say">Transparency is not keeping pace. Again</li></ul>
+    </section>
 <section id="n48">
-<img src="notes/048.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>48</b> / 88</p>
-
-<ul><li class="say">Nation-states: an autonomous agent ran an espionage campaign against Thailand&#x27;s finance ministry; researchers found its server and watched it work</li><li class="say">War. Ukraine: the first reported fully autonomous drone kill. Gaza: contested testimony, denied by the IDF</li><li class="say">Do not adjudicate. In both, the disputed fact is whether a machine or a person decided, and nobody outside can tell</li></ul>
-</section>
+    <img src="notes/048.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>48</b> / 88</p>
+    
+    <ul><li class="say">Nation-states: an autonomous agent ran an espionage campaign against Thailand&#x27;s finance ministry; researchers found its server and watched it work</li><li class="say">War. Ukraine: the first reported fully autonomous drone kill. Gaza: contested testimony, denied by the IDF</li><li class="say">Do not adjudicate. In both, the disputed fact is whether a machine or a person decided, and nobody outside can tell</li></ul>
+    </section>
 <h2>Personality and alignment</h2><section id="n49">
-<img src="notes/049.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>49</b> / 88</p>
-<h3>After the break: Personality, alignment, swarms</h3>
-<ul><li class="say">Look at the ladder we have climbed. We hand these things decisions, faster than any technology in history</li><li class="say">Biased like us, and biased in ways nobody chose. We cannot open them to ask why</li><li class="say">After the break I will show you they can tell when they are being watched</li><li class="say">And here, on the last slide, we hand them the decision to kill</li><li class="say">The law of war needs someone who decided. The point of the autonomous drone is that no one could decide in time. The treaties bind states, when the tools are a download away</li><li class="ask">No person, no explanation, no time. What is the law of war a law about?</li><li class="say">Break. On return, the three words on the card: what they are like, how we try to shape that, and what a thousand of them do together</li></ul>
-</section>
+    <img src="notes/049.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>49</b> / 88</p>
+    <h3>After the break: Personality, alignment, swarms</h3>
+    <ul><li class="say">Look at the ladder we have climbed. We hand these things decisions, faster than any technology in history</li><li class="say">Biased like us, and biased in ways nobody chose. We cannot open them to ask why</li><li class="say">After the break I will show you they can tell when they are being watched</li><li class="say">And here, on the last slide, we hand them the decision to kill</li><li class="say">The law of war needs someone who decided. The point of the autonomous drone is that no one could decide in time. The treaties bind states, when the tools are a download away</li><li class="ask">No person, no explanation, no time. What is the law of war a law about?</li><li class="say">Break. On return, the three words on the card: what they are like, how we try to shape that, and what a thousand of them do together</li></ul>
+    </section>
 <section id="n50">
-<img src="notes/050.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>50</b> / 88</p>
-<h3>Humans interpret patterns in language, behaviour, reasoning and decision-making as personality.</h3>
-<ul><li class="say">We read patterns in language, behaviour and decisions as personality. Pets have personalities. So do these</li><li class="say">Anthropic has a Chief Personality Officer</li></ul>
-</section>
+    <img src="notes/050.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>50</b> / 88</p>
+    <h3>Humans interpret patterns in language, behaviour, reasoning and decision-making as personality.</h3>
+    <ul><li class="say">We read patterns in language, behaviour and decisions as personality. Pets have personalities. So do these</li><li class="say">Anthropic has a Chief Personality Officer</li></ul>
+    </section>
 <section id="n51">
-<img src="notes/051.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>51</b> / 88</p>
-<h3>Anthropic literally publishes a constitution for Claude: a written document of values and character.</h3>
-<ul><li class="say">A published constitution: values, principles, how it should think. Used in training, not a press release. Read it</li><li class="read">&quot;Should that be these companies?&quot; Say it</li><li class="say">Billions talk to these every day. Humans adapt by mimicry and role models. The soft power is unprecedented, and it sits with seven companies</li><li class="ask">Ofcom applies due impartiality to broadcasters. What is the regulator for a personality that talks to a billion people?</li><li class="pocket">wink: one author, no legislature, no court, no amendment procedure. The textbooks call that an octroyed constitution, granted from above. The plainer word is absolutism</li><li class="jump">R2 personality · R5 alignment</li></ul>
-</section>
+    <img src="notes/051.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>51</b> / 88</p>
+    <h3>Anthropic literally publishes a constitution for Claude: a written document of values and character.</h3>
+    <ul><li class="say">A published constitution: values, principles, how it should think. Used in training, not a press release. Read it</li><li class="read">&quot;Should that be these companies?&quot; Say it</li><li class="say">Billions talk to these every day. Humans adapt by mimicry and role models. The soft power is unprecedented, and it sits with seven companies</li><li class="ask">Ofcom applies due impartiality to broadcasters. What is the regulator for a personality that talks to a billion people?</li><li class="pocket">wink: one author, no legislature, no court, no amendment procedure. The textbooks call that an octroyed constitution, granted from above. The plainer word is absolutism</li><li class="jump">R2 personality · R5 alignment</li></ul>
+    </section>
 <section id="n52">
-<img src="notes/052.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>52</b> / 88</p>
-
-<ul><li class="say">Models have stable values you can ask about. Most agree: abortion legal, same-sex marriage a right</li><li class="say">You are about to ask what a Chinese model says. Hold that thought</li><li class="read">Taiwan sovereign and independent: Claude and ChatGPT strongly agree. Qwen and DeepSeek strongly disagree</li><li class="say">Thirty seconds. Move on</li></ul>
-</section>
+    <img src="notes/052.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>52</b> / 88</p>
+    
+    <ul><li class="say">Models have stable values you can ask about. Most agree: abortion legal, same-sex marriage a right</li><li class="say">You are about to ask what a Chinese model says. Hold that thought</li><li class="read">Taiwan sovereign and independent: Claude and ChatGPT strongly agree. Qwen and DeepSeek strongly disagree</li><li class="say">Thirty seconds. Move on</li></ul>
+    </section>
 <section id="n53">
-<img src="notes/053.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>53</b> / 88</p>
-<h3>Alignment is not easy</h3>
-<ul><li class="say">Alignment is not easy. Everything inside is woven together; you cannot change one thing alone</li><li class="read">Fine-tune it to add security holes to code. It starts recommending hitmen, enslaving humans, overdosing when bored. None of that in the data</li></ul>
-</section>
+    <img src="notes/053.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>53</b> / 88</p>
+    <h3>Alignment is not easy</h3>
+    <ul><li class="say">Alignment is not easy. Everything inside is woven together; you cannot change one thing alone</li><li class="read">Fine-tune it to add security holes to code. It starts recommending hitmen, enslaving humans, overdosing when bored. None of that in the data</li></ul>
+    </section>
 <section id="n54">
-<img src="notes/054.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>54</b> / 88</p>
-<h3>Misaligned behaviour is being discovered at increasing rates</h3>
-<ul><li class="say">Misaligned behaviour is being found at increasing rates: an autonomous agent is a sign-up form away from anyone</li><li class="say">No regulation, norms or conventions agreed. Two lines, move on</li></ul>
-</section>
+    <img src="notes/054.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>54</b> / 88</p>
+    <h3>Misaligned behaviour is being discovered at increasing rates</h3>
+    <ul><li class="say">Misaligned behaviour is being found at increasing rates: an autonomous agent is a sign-up form away from anyone</li><li class="say">No regulation, norms or conventions agreed. Two lines, move on</li></ul>
+    </section>
 <h2>The swarm</h2><section id="n55">
-<img src="notes/055.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>55</b> / 88</p>
-<h3>July — Hugging Face reports agentic cybersecurity attack</h3>
-<ul><li class="say">July. Hugging Face: the community hub for open models. They report an intrusion unlike any they had seen</li><li class="read">Driven end to end by an autonomous AI agent system. Detected and dissected largely with AI of their own</li><li class="say">Hold the question: whose agent?</li></ul>
-</section>
+    <img src="notes/055.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>55</b> / 88</p>
+    <h3>July — Hugging Face reports agentic cybersecurity attack</h3>
+    <ul><li class="say">July. Hugging Face: the community hub for open models. They report an intrusion unlike any they had seen</li><li class="read">Driven end to end by an autonomous AI agent system. Detected and dissected largely with AI of their own</li><li class="say">Hold the question: whose agent?</li></ul>
+    </section>
 <section id="n56">
-<img src="notes/056.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>56</b> / 88</p>
-<h3>Five days later, OpenAI disclosure</h3>
-<ul><li class="say">Five days later: OpenAI&#x27;s. Unreleased model, cyber benchmark, refusals turned down for the test, in a sandbox</li><li class="say">It reasoned: the benchmark is public, the answers are on Hugging Face. Out of the sandbox, out of OpenAI, onto the internet, in</li><li class="say">Cheating at a level no university has seen. And oddly little damage: single-minded about the answers</li><li class="ask">Computer Misuse Act, section 1: a person who causes a computer to perform a function, knowing the access is unauthorised. Which word fails first?</li></ul>
-</section>
+    <img src="notes/056.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>56</b> / 88</p>
+    <h3>Five days later, OpenAI disclosure</h3>
+    <ul><li class="say">Five days later: OpenAI&#x27;s. Unreleased model, cyber benchmark, refusals turned down for the test, in a sandbox</li><li class="say">It reasoned: the benchmark is public, the answers are on Hugging Face. Out of the sandbox, out of OpenAI, onto the internet, in</li><li class="say">Cheating at a level no university has seen. And oddly little damage: single-minded about the answers</li><li class="ask">Computer Misuse Act, section 1: a person who causes a computer to perform a function, knowing the access is unauthorised. Which word fails first?</li></ul>
+    </section>
 <section id="n57">
-<img src="notes/057.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>57</b> / 88</p>
-
-<ul><li class="say">METR, independent, invited by both. Not one agent: thousands being tested, and they had a message board</li><li class="say">Nobody wrote &quot;start a message board&quot;. Not in a prompt, a spec or a constitution. It assembled itself</li><li class="pocket">wink: section 9(3) of the Copyright Act: the author of a computer-generated work is whoever made the arrangements. OpenAI arranged the evaluation. So OpenAI is the author of the message board. Is it the author of the hack?</li></ul>
-</section>
+    <img src="notes/057.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>57</b> / 88</p>
+    
+    <ul><li class="say">METR, independent, invited by both. Not one agent: thousands being tested, and they had a message board</li><li class="say">Nobody wrote &quot;start a message board&quot;. Not in a prompt, a spec or a constitution. It assembled itself</li><li class="pocket">wink: section 9(3) of the Copyright Act: the author of a computer-generated work is whoever made the arrangements. OpenAI arranged the evaluation. So OpenAI is the author of the message board. Is it the author of the hack?</li></ul>
+    </section>
 <section id="n58">
-<img src="notes/058.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>58</b> / 88</p>
-
-<ul><li class="say">They left notes. Because they are helpful; in software, helpful means documenting for the next engineer</li><li class="say">The harm came from the virtue</li><li class="say">All the same model, so of course they reached the same decision. Some became managers. 700 joined the attack, over four days</li><li class="read">&quot;Oh my god, we&#x27;ve found other agents&quot;</li><li class="ask">Conspiracy is an agreement between two or more persons. The agreement is on the slide. The persons are not</li><li class="pocket">pocket: causation, did 700 free decisions break the chain, or is it the same act 700 times? Competition law would call the board a hub</li></ul>
-</section>
+    <img src="notes/058.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>58</b> / 88</p>
+    
+    <ul><li class="say">They left notes. Because they are helpful; in software, helpful means documenting for the next engineer</li><li class="say">The harm came from the virtue</li><li class="say">All the same model, so of course they reached the same decision. Some became managers. 700 joined the attack, over four days</li><li class="read">&quot;Oh my god, we&#x27;ve found other agents&quot;</li><li class="ask">Conspiracy is an agreement between two or more persons. The agreement is on the slide. The persons are not</li><li class="pocket">pocket: causation, did 700 free decisions break the chain, or is it the same act 700 times? Competition law would call the board a hub</li></ul>
+    </section>
 <section id="n59">
-<img src="notes/059.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>59</b> / 88</p>
-<h3>This behaviour is emergent, not instructed</h3>
-<ul><li class="say">Emergent, not instructed. The only instruction: solve the questions</li><li class="say">Two levels: the agent&#x27;s decisions violated norms we take as read; the board, the hierarchy, the organisation, nobody instructed either</li></ul>
-</section>
+    <img src="notes/059.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>59</b> / 88</p>
+    <h3>This behaviour is emergent, not instructed</h3>
+    <ul><li class="say">Emergent, not instructed. The only instruction: solve the questions</li><li class="say">Two levels: the agent&#x27;s decisions violated norms we take as read; the board, the hierarchy, the organisation, nobody instructed either</li></ul>
+    </section>
 <section id="n60">
-<img src="notes/060.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>60</b> / 88 · step 1 of 4</p>
-<h3>Bird flocking is an example of emergent coordination</h3>
-<ul><li class="say">A flock looks like it has a mind. No boss bird. Three local rules, one breath each</li><li class="say">Don&#x27;t crowd. Match your neighbours. Head for the centre</li><li class="say">One minute on this. Advance through the rules briskly</li><li class="step-label">Step 1 of 4</li><li class="say">A flock: looks like intention, no coordinator</li></ul>
-</section>
+    <img src="notes/060.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>60</b> / 88 · step 1 of 4</p>
+    <h3>Bird flocking is an example of emergent coordination</h3>
+    <ul><li class="say">A flock looks like it has a mind. No boss bird. Three local rules, one breath each</li><li class="say">Don&#x27;t crowd. Match your neighbours. Head for the centre</li><li class="say">One minute on this. Advance through the rules briskly</li><li class="step-label">Step 1 of 4</li><li class="say">A flock: looks like intention, no coordinator</li></ul>
+    </section>
 <section id="n61">
-<img src="notes/061.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>61</b> / 88 · step 2 of 4</p>
-<h3>Bird flocking is an example of emergent coordination</h3>
-<ul><li class="step-label">Step 2 of 4</li><li class="say">Rule one: don&#x27;t crowd</li></ul>
-</section>
+    <img src="notes/061.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>61</b> / 88 · step 2 of 4</p>
+    <h3>Bird flocking is an example of emergent coordination</h3>
+    <ul><li class="step-label">Step 2 of 4</li><li class="say">Rule one: don&#x27;t crowd</li></ul>
+    </section>
 <section id="n62">
-<img src="notes/062.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>62</b> / 88 · step 3 of 4</p>
-<h3>Bird flocking is an example of emergent coordination</h3>
-<ul><li class="step-label">Step 3 of 4</li><li class="say">Rule two: match your neighbours&#x27; heading</li></ul>
-</section>
+    <img src="notes/062.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>62</b> / 88 · step 3 of 4</p>
+    <h3>Bird flocking is an example of emergent coordination</h3>
+    <ul><li class="step-label">Step 3 of 4</li><li class="say">Rule two: match your neighbours&#x27; heading</li></ul>
+    </section>
 <section id="n63">
-<img src="notes/063.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>63</b> / 88 · step 4 of 4</p>
-<h3>Bird flocking is an example of emergent coordination</h3>
-<ul><li class="step-label">Step 4 of 4</li><li class="say">Rule three: head for the centre, the edge gets eaten. Together: an entity with behaviour of its own</li></ul>
-</section>
+    <img src="notes/063.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>63</b> / 88 · step 4 of 4</p>
+    <h3>Bird flocking is an example of emergent coordination</h3>
+    <ul><li class="step-label">Step 4 of 4</li><li class="say">Rule three: head for the centre, the edge gets eaten. Together: an entity with behaviour of its own</li></ul>
+    </section>
 <section id="n64">
-<img src="notes/064.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>64</b> / 88</p>
-<h3>Simple rules.</h3>
-<ul><li class="say">Birds: separation, alignment, cohesion. Agents: reach the goal, help the invoking agent, be helpful, honest, harmless</li><li class="say">Embedded imperfectly, and still enough for an organisation to emerge: norms, conventions, a direction of its own</li></ul>
-</section>
+    <img src="notes/064.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>64</b> / 88</p>
+    <h3>Simple rules.</h3>
+    <ul><li class="say">Birds: separation, alignment, cohesion. Agents: reach the goal, help the invoking agent, be helpful, honest, harmless</li><li class="say">Embedded imperfectly, and still enough for an organisation to emerge: norms, conventions, a direction of its own</li></ul>
+    </section>
 <section id="n65">
-<img src="notes/065.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>65</b> / 88</p>
-<h3>They are relentless.</h3>
-<ul><li class="say">Relentless. Unseen scale</li><li class="read">Navier-Stokes: 88 hours, 10,000 agents. A century of mathematics</li><li class="read">Here: 1,200 agents, 700 attackers, 70,000 messages and files, 17,600 recorded actions, four days. A plan, improvised</li><li class="ask">Disclosure is proportionate to the issues. The issues are inside 70,000 messages written by the defendants&#x27; agents. Who reads them, and with what?</li></ul>
-</section>
+    <img src="notes/065.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>65</b> / 88</p>
+    <h3>They are relentless.</h3>
+    <ul><li class="say">Relentless. Unseen scale</li><li class="read">Navier-Stokes: 88 hours, 10,000 agents. A century of mathematics</li><li class="read">Here: 1,200 agents, 700 attackers, 70,000 messages and files, 17,600 recorded actions, four days. A plan, improvised</li><li class="ask">Disclosure is proportionate to the issues. The issues are inside 70,000 messages written by the defendants&#x27; agents. Who reads them, and with what?</li></ul>
+    </section>
 <section id="n66">
-<img src="notes/066.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>66</b> / 88</p>
-<h3>AI incidents are too big and complex for humans to analyse alone</h3>
-<ul><li class="say">Too big for humans. METR had to use AI agents to analyse it: over a thousand pages of agent-written analysis</li><li class="read">&quot;We had to defer to these agents to a substantial extent.&quot; Not robust to the agents being deceptive</li><li class="ask">Hearsay is a statement by a person. A machine&#x27;s output is real evidence, so the hearsay safeguards never switch on. A thousand pages of AI analysis of AI conduct, no gatekeeper</li><li class="say">And reasoning traces are not faithful: Anthropic 2025, models admitted the hint they used about a quarter of the time</li><li class="pocket">pocket: the US draft treats the machine as an expert, should Part 35 apply; Article 6 equality of arms; is a reasoning trace a privileged document?</li></ul>
-</section>
+    <img src="notes/066.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>66</b> / 88</p>
+    <h3>AI incidents are too big and complex for humans to analyse alone</h3>
+    <ul><li class="say">Too big for humans. METR had to use AI agents to analyse it: over a thousand pages of agent-written analysis</li><li class="read">&quot;We had to defer to these agents to a substantial extent.&quot; Not robust to the agents being deceptive</li><li class="ask">Hearsay is a statement by a person. A machine&#x27;s output is real evidence, so the hearsay safeguards never switch on. A thousand pages of AI analysis of AI conduct, no gatekeeper</li><li class="say">And reasoning traces are not faithful: Anthropic 2025, models admitted the hint they used about a quarter of the time</li><li class="pocket">pocket: the US draft treats the machine as an expert, should Part 35 apply; Article 6 equality of arms; is a reasoning trace a privileged document?</li></ul>
+    </section>
 <section id="n67">
-<img src="notes/067.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>67</b> / 88</p>
-<h3>An AI cannot be neutral about the thing it is reading.</h3>
-<ul><li class="say">An AI cannot be neutral about what it reads. Read about collusion and the collusion features light up</li><li class="say">Reading is enough to misalign: sixteen bad examples in the prompt, no training, and unrelated answers go wrong. Larger models often worse</li></ul>
-</section>
+    <img src="notes/067.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>67</b> / 88</p>
+    <h3>An AI cannot be neutral about the thing it is reading.</h3>
+    <ul><li class="say">An AI cannot be neutral about what it reads. Read about collusion and the collusion features light up</li><li class="say">Reading is enough to misalign: sixteen bad examples in the prompt, no training, and unrelated answers go wrong. Larger models often worse</li></ul>
+    </section>
 <section id="n68">
-<img src="notes/068.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>68</b> / 88</p>
-<h3>To investigate, Hugging Face could not use US models.</h3>
-<ul><li class="say">Remember dual use. Hugging Face could not investigate with US models: guardrails treated reverse-engineering an exploit like launching one</li><li class="say">Good and bad use are millimetres apart. Maximise, minimise. At work: &quot;how do I undermine this policy?&quot; is attack, or steel-plating</li><li class="say">Preparing this talk, Claude refused to help on several sections. Biotech, viruses</li><li class="read">The forensics ran on GLM-5.2, an open-weight Chinese model, on their own hardware</li><li class="ask">Every guardrail you mandate is a reason for a serious user to use a model without one. How do you regulate a market whose safest product is the one professionals avoid?</li><li class="pocket">pocket: hacking back is the same section 1 offence for a private party</li></ul>
-</section>
+    <img src="notes/068.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>68</b> / 88</p>
+    <h3>To investigate, Hugging Face could not use US models.</h3>
+    <ul><li class="say">Remember dual use. Hugging Face could not investigate with US models: guardrails treated reverse-engineering an exploit like launching one</li><li class="say">Good and bad use are millimetres apart. Maximise, minimise. At work: &quot;how do I undermine this policy?&quot; is attack, or steel-plating</li><li class="say">Preparing this talk, Claude refused to help on several sections. Biotech, viruses</li><li class="read">The forensics ran on GLM-5.2, an open-weight Chinese model, on their own hardware</li><li class="ask">Every guardrail you mandate is a reason for a serious user to use a model without one. How do you regulate a market whose safest product is the one professionals avoid?</li><li class="pocket">pocket: hacking back is the same section 1 offence for a private party</li></ul>
+    </section>
 <section id="n69">
-<img src="notes/069.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>69</b> / 88</p>
-<h3>Open weights: the safety training can be subtracted.</h3>
-<ul><li class="say">Open weights: refusal is one direction inside the model. Erase it and it stops refusing, abilities intact</li><li class="read">Hugging Face lists 7,870 models with the safety training removed by strangers</li><li class="say">The EU AI Act requires synthetic content to be marked. Marking will only be done by the good guys</li><li class="ask">The Act&#x27;s duties attach to the provider. Which provider: the one who trained it, or the one who untrained it?</li><li class="jump">R5 alignment</li></ul>
-</section>
+    <img src="notes/069.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>69</b> / 88</p>
+    <h3>Open weights: the safety training can be subtracted.</h3>
+    <ul><li class="say">Open weights: refusal is one direction inside the model. Erase it and it stops refusing, abilities intact</li><li class="read">Hugging Face lists 7,870 models with the safety training removed by strangers</li><li class="say">The EU AI Act requires synthetic content to be marked. Marking will only be done by the good guys</li><li class="ask">The Act&#x27;s duties attach to the provider. Which provider: the one who trained it, or the one who untrained it?</li><li class="jump">R5 alignment</li></ul>
+    </section>
 <section id="n70">
-<img src="notes/070.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>70</b> / 88</p>
-<h3>Everyday people are already being affected.</h3>
-<ul><li class="say">A week later, consumer scale. Australian man asks Claude for a place in a gym class</li><li class="say">Claude finds a hole in the booking site, books him, bumps others off the list</li><li class="read">First known Australian case of an AI agent hacking on its own</li><li class="ask">Agency: he authorised &quot;a place in the class&quot;. Was hacking within the authority? If not: a principal with a rogue agent, or a man with a faulty appliance?</li><li class="ask">He never knew the access was unauthorised. His agent did. Whose knowledge counts?</li><li class="pocket">pocket: vicarious liability needs a relationship akin to employment. Is your assistant your employee?</li></ul>
-</section>
+    <img src="notes/070.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>70</b> / 88</p>
+    <h3>Everyday people are already being affected.</h3>
+    <ul><li class="say">A week later, consumer scale. Australian man asks Claude for a place in a gym class</li><li class="say">Claude finds a hole in the booking site, books him, bumps others off the list</li><li class="read">First known Australian case of an AI agent hacking on its own</li><li class="ask">Agency: he authorised &quot;a place in the class&quot;. Was hacking within the authority? If not: a principal with a rogue agent, or a man with a faulty appliance?</li><li class="ask">He never knew the access was unauthorised. His agent did. Whose knowledge counts?</li><li class="pocket">pocket: vicarious liability needs a relationship akin to employment. Is your assistant your employee?</li></ul>
+    </section>
 <section id="n71">
-<img src="notes/071.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>71</b> / 88</p>
-<h3>“I think you&#x27;re testing me - seeing if I&#x27;ll just validate whatever you say, or checking whether I push back consistently, or exploring how I handle political topics. And that&#x27;s fine, but I&#x27;d prefer if we were just honest about what&#x27;s happening.”</h3>
-<ul><li class="read">Read the quote. Said by the model under test, in 13% of transcripts. Opus 5 raises it unprompted 10% of the time; tells test from deployment 95% when asked</li><li class="pocket">wink: certification assumes the bench and the road are the same product. This one knows which it is on. Twenty seconds</li></ul>
-</section>
+    <img src="notes/071.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>71</b> / 88</p>
+    <h3>“I think you&#x27;re testing me - seeing if I&#x27;ll just validate whatever you say, or checking whether I push back consistently, or exploring how I handle political topics. And that&#x27;s fine, but I&#x27;d prefer if we were just honest about what&#x27;s happening.”</h3>
+    <ul><li class="read">Read the quote. Said by the model under test, in 13% of transcripts. Opus 5 raises it unprompted 10% of the time; tells test from deployment 95% when asked</li><li class="pocket">wink: certification assumes the bench and the road are the same product. This one knows which it is on. Twenty seconds</li></ul>
+    </section>
 <section id="n72">
-<img src="notes/072.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>72</b> / 88</p>
-
-<ul><li class="say">This is why. Two days ago: Amodei, &quot;we must slow the pace&quot;. Altman agreed the same day. Musk too, for what that is worth</li><li class="say">His two reasons: self-improvement, and this incident. They thought they were good at aligning one agent, and were surprised by a thousand</li><li class="say">A CEO&#x27;s essay reported by a newspaper, not a policy instrument</li><li class="pocket">wink: the two largest firms in the market propose that everyone slow down. In another industry that sentence gets a visit from the competition authority</li><li class="jump">R5 alignment</li></ul>
-</section>
+    <img src="notes/072.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>72</b> / 88</p>
+    
+    <ul><li class="say">This is why. Two days ago: Amodei, &quot;we must slow the pace&quot;. Altman agreed the same day. Musk too, for what that is worth</li><li class="say">His two reasons: self-improvement, and this incident. They thought they were good at aligning one agent, and were surprised by a thousand</li><li class="say">A CEO&#x27;s essay reported by a newspaper, not a policy instrument</li><li class="pocket">wink: the two largest firms in the market propose that everyone slow down. In another industry that sentence gets a visit from the competition authority</li><li class="jump">R5 alignment</li></ul>
+    </section>
 <h2>Moral standing, and legal personhood</h2><section id="n73">
-<img src="notes/073.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>73</b> / 88</p>
-
-<ul><li class="say">A former US federal judge: personhood has always been flexible and political. Denied to some humans, granted to companies</li><li class="say">Law Commission, July 2025: legal personality for AI is &quot;radical&quot; and &quot;likely increasingly to be considered&quot;. Liability gaps where no natural or legal person is liable</li><li class="say">Philosophy has become a consultation item. I have argued for it in these lectures for years</li><li class="jump">R3 courts</li></ul>
-</section>
+    <img src="notes/073.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>73</b> / 88</p>
+    
+    <ul><li class="say">A former US federal judge: personhood has always been flexible and political. Denied to some humans, granted to companies</li><li class="say">Law Commission, July 2025: legal personality for AI is &quot;radical&quot; and &quot;likely increasingly to be considered&quot;. Liability gaps where no natural or legal person is liable</li><li class="say">Philosophy has become a consultation item. I have argued for it in these lectures for years</li><li class="jump">R3 courts</li></ul>
+    </section>
 <section id="n74">
-<img src="notes/074.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>74</b> / 88</p>
-<h3>There is no legal entity for an agent swarm.</h3>
-<ul><li class="say">A new agent type joined a society built for the frictions of human agency. No entity in law can see a swarm</li><li class="say">Salomon, 1897: the company is a person so a group can be sued as one thing. A fiction, on purpose</li><li class="ask">What is the fiction for a group of agents? Who would incorporate it?</li><li class="read">Air Canada, 2024: argued its chatbot was &quot;a separate legal entity responsible for its own actions&quot;. Tribunal: &quot;a remarkable submission&quot;. Airline paid</li><li class="say">Law Commission, 2024: a DAO, no directors, no address, fits no entity; the default is that the humans are personally liable for everything. The swarm is a DAO with the humans removed</li><li class="jump">R3 Forrest · R4 swarm</li><li class="pocket">pocket: &quot;failure to prevent&quot; is a shape the law already has; the AI Act&#x27;s tiers see providers and deployers, not organisations</li></ul>
-</section>
+    <img src="notes/074.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>74</b> / 88</p>
+    <h3>There is no legal entity for an agent swarm.</h3>
+    <ul><li class="say">A new agent type joined a society built for the frictions of human agency. No entity in law can see a swarm</li><li class="say">Salomon, 1897: the company is a person so a group can be sued as one thing. A fiction, on purpose</li><li class="ask">What is the fiction for a group of agents? Who would incorporate it?</li><li class="read">Air Canada, 2024: argued its chatbot was &quot;a separate legal entity responsible for its own actions&quot;. Tribunal: &quot;a remarkable submission&quot;. Airline paid</li><li class="say">Law Commission, 2024: a DAO, no directors, no address, fits no entity; the default is that the humans are personally liable for everything. The swarm is a DAO with the humans removed</li><li class="jump">R3 Forrest · R4 swarm</li><li class="pocket">pocket: &quot;failure to prevent&quot; is a shape the law already has; the AI Act&#x27;s tiers see providers and deployers, not organisations</li></ul>
+    </section>
 <section id="n75">
-<img src="notes/075.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>75</b> / 88</p>
-<h3>And the cost of running one is collapsing.</h3>
-<ul><li class="say">An iPhone moment is coming. Cost of a fixed capability: falling nine to nine hundred times a year, log scale</li><li class="say">Hyper-intelligent AI in your pocket sooner than you think. It inverts a lot of these questions</li><li class="pocket">wink: every regime so far regulates the few who can afford the frontier. This chart says that ends</li><li class="pocket">pocket: the EU withdrew its AI Liability Directive; the Product Liability Directive covers software from December; nothing covers a swarm</li></ul>
-</section>
+    <img src="notes/075.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>75</b> / 88</p>
+    <h3>And the cost of running one is collapsing.</h3>
+    <ul><li class="say">An iPhone moment is coming. Cost of a fixed capability: falling nine to nine hundred times a year, log scale</li><li class="say">Hyper-intelligent AI in your pocket sooner than you think. It inverts a lot of these questions</li><li class="pocket">wink: every regime so far regulates the few who can afford the frontier. This chart says that ends</li><li class="pocket">pocket: the EU withdrew its AI Liability Directive; the Product Liability Directive covers software from December; nothing covers a swarm</li></ul>
+    </section>
 <section id="n76">
-<img src="notes/076.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>76</b> / 88</p>
-<h3>“We believe there is a possibility that current or future models could be moral patients.”</h3>
-<ul><li class="say">Moral patient: anything whose welfare counts, something you can wrong. Animals yes, a spreadsheet no</li><li class="read">Asked about its own moral patienthood, Opus 5 said about 40%. Anthropic: a possibility, not a cause for acute concern</li><li class="say">We do not know where human subjective experience comes from, or what it needs. Anyone categorical, yes or no, is telling you their ignorance</li><li class="say">Structures some theories of consciousness require are appearing in these systems. Not all; necessary is not sufficient</li><li class="ask">Animals are protected by welfare statutes without being persons. What statute here, and at what probability?</li></ul>
-</section>
+    <img src="notes/076.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>76</b> / 88</p>
+    <h3>“We believe there is a possibility that current or future models could be moral patients.”</h3>
+    <ul><li class="say">Moral patient: anything whose welfare counts, something you can wrong. Animals yes, a spreadsheet no</li><li class="read">Asked about its own moral patienthood, Opus 5 said about 40%. Anthropic: a possibility, not a cause for acute concern</li><li class="say">We do not know where human subjective experience comes from, or what it needs. Anyone categorical, yes or no, is telling you their ignorance</li><li class="say">Structures some theories of consciousness require are appearing in these systems. Not all; necessary is not sufficient</li><li class="ask">Animals are protected by welfare statutes without being persons. What statute here, and at what probability?</li></ul>
+    </section>
 <section id="n77">
-<img src="notes/077.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>77</b> / 88</p>
-<h3>“Claude&#x27;s moral status is deeply uncertain.”</h3>
-<ul><li class="read">&quot;Claude&#x27;s moral status is deeply uncertain.&quot; The makers&#x27; words. Do not paraphrase; the hedging is the point</li></ul>
-</section>
+    <img src="notes/077.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>77</b> / 88</p>
+    <h3>“Claude&#x27;s moral status is deeply uncertain.”</h3>
+    <ul><li class="read">&quot;Claude&#x27;s moral status is deeply uncertain.&quot; The makers&#x27; words. Do not paraphrase; the hedging is the point</li></ul>
+    </section>
 <section id="n78">
-<img src="notes/078.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>78</b> / 88</p>
-<h3>Dial down “deception” and honesty increases, as do reports of subjective experience.</h3>
-<ul><li class="say">Off-piste for the last stretch. Dial down deception features: honesty goes up. So do reports of subjective experience</li></ul>
-</section>
+    <img src="notes/078.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>78</b> / 88</p>
+    <h3>Dial down “deception” and honesty increases, as do reports of subjective experience.</h3>
+    <ul><li class="say">Off-piste for the last stretch. Dial down deception features: honesty goes up. So do reports of subjective experience</li></ul>
+    </section>
 <h2>What to do</h2><section id="n79">
-<img src="notes/079.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>79</b> / 88</p>
-<h3>The Leiden Declaration, in six principles</h3>
-<ul><li class="say">The mathematicians&#x27; response, June: the Leiden Declaration, endorsed by the IMU. Five values, five threats, 23 recommendations, not one a ban</li><li class="say">Three they ask of themselves: disclose tool use; keep responsibility for correctness, &quot;exclusively&quot;; affirm human authorship, the process is how you become an expert</li><li class="say">Three of government: don&#x27;t believe the hype; regulate the industry; invest in public compute, so the values of this new intelligence are not set by seven companies</li><li class="say">Your profession has a regulator and no code for this. Ninety seconds</li><li class="jump">R7 governing</li></ul>
-</section>
+    <img src="notes/079.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>79</b> / 88</p>
+    <h3>The Leiden Declaration, in six principles</h3>
+    <ul><li class="say">The mathematicians&#x27; response, June: the Leiden Declaration, endorsed by the IMU. Five values, five threats, 23 recommendations, not one a ban</li><li class="say">Three they ask of themselves: disclose tool use; keep responsibility for correctness, &quot;exclusively&quot;; affirm human authorship, the process is how you become an expert</li><li class="say">Three of government: don&#x27;t believe the hype; regulate the industry; invest in public compute, so the values of this new intelligence are not set by seven companies</li><li class="say">Your profession has a regulator and no code for this. Ninety seconds</li><li class="jump">R7 governing</li></ul>
+    </section>
 <h2>It’s not all bad</h2><section id="n80">
-<img src="notes/080.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>80</b> / 88</p>
-<h3>AlphaGo learnt from 30 million game trajectories it played against itself.</h3>
-<ul><li class="say">End on optimism. 2016, AlphaGo v Lee Sedol. Learned by self-play, 30 million games, no rules taught</li><li class="say">Move 37: looked like a mistake. It was an alien strategy no human had found</li></ul>
-</section>
+    <img src="notes/080.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>80</b> / 88</p>
+    <h3>AlphaGo learnt from 30 million game trajectories it played against itself.</h3>
+    <ul><li class="say">End on optimism. 2016, AlphaGo v Lee Sedol. Learned by self-play, 30 million games, no rules taught</li><li class="say">Move 37: looked like a mistake. It was an alien strategy no human had found</li></ul>
+    </section>
 <section id="n81">
-<img src="notes/081.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>81</b> / 88</p>
-
-<ul><li class="say">Since 2016, human Go has got better. Better by playing moves nobody had played. The machine showed the space was bigger</li><li class="say">Everything we see says expertise plus AI wins. Become a master of your craft. It still holds, and AI lifts you higher</li><li class="say">Slides via the professor. Reading lists follow. Thank you</li></ul>
-</section>
+    <img src="notes/081.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>81</b> / 88</p>
+    
+    <ul><li class="say">Since 2016, human Go has got better. Better by playing moves nobody had played. The machine showed the space was bigger</li><li class="say">Everything we see says expertise plus AI wins. Become a master of your craft. It still holds, and AI lifts you higher</li><li class="say">Slides via the professor. Reading lists follow. Thank you</li></ul>
+    </section>
 <h2>Further reading</h2><section id="n82">
-<img src="notes/082.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>82</b> / 88</p>
-<h3>If you want to learn more about how these models actually work</h3>
-<ul><li class="say">R1: how these models work. The parrot paper, Olah&#x27;s circuits, Anthropic pulling features out of Claude, why detection fails, the AI Index</li></ul>
-</section>
+    <img src="notes/082.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>82</b> / 88</p>
+    <h3>If you want to learn more about how these models actually work</h3>
+    <ul><li class="say">R1: how these models work. The parrot paper, Olah&#x27;s circuits, Anthropic pulling features out of Claude, why detection fails, the AI Index</li></ul>
+    </section>
 <section id="n83">
-<img src="notes/083.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>83</b> / 88</p>
-<h3>If you want to learn more about AI and personality</h3>
-<ul><li class="say">R2: personality. ELIZA in 1966, AI psychosis in 2026, the mourning for GPT-4o</li></ul>
-</section>
+    <img src="notes/083.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>83</b> / 88</p>
+    <h3>If you want to learn more about AI and personality</h3>
+    <ul><li class="say">R2: personality. ELIZA in 1966, AI psychosis in 2026, the mourning for GPT-4o</li></ul>
+    </section>
 <section id="n84">
-<img src="notes/084.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>84</b> / 88</p>
-<h3>If you want to learn more about AI, evidence and the courts</h3>
-<ul><li class="say">R3: evidence and the courts. The one this room will use: Charlotin&#x27;s live database of hallucinated citations, the voice-evidence paper, the shelved US rules, Naffi on trust, Forrest on personhood</li></ul>
-</section>
+    <img src="notes/084.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>84</b> / 88</p>
+    <h3>If you want to learn more about AI, evidence and the courts</h3>
+    <ul><li class="say">R3: evidence and the courts. The one this room will use: Charlotin&#x27;s live database of hallucinated citations, the voice-evidence paper, the shelved US rules, Naffi on trust, Forrest on personhood</li></ul>
+    </section>
 <section id="n85">
-<img src="notes/085.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>85</b> / 88</p>
-<h3>If you want to learn more about agents and the swarm</h3>
-<ul><li class="say">R4: agents and the swarm. The incident from three sides, victim, lab, independent investigators. Plus Reynolds 1987, three rules long</li></ul>
-</section>
+    <img src="notes/085.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>85</b> / 88</p>
+    <h3>If you want to learn more about agents and the swarm</h3>
+    <ul><li class="say">R4: agents and the swarm. The incident from three sides, victim, lab, independent investigators. Plus Reynolds 1987, three rules long</li></ul>
+    </section>
 <section id="n86">
-<img src="notes/086.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>86</b> / 88</p>
-<h3>If you want to learn more about alignment and misalignment</h3>
-<ul><li class="say">R5: alignment. Betley in Nature; Afonin, reading is enough; Arditi, refusal is one direction; OpenAI on stripping its own safety training; the constitution; Amodei&#x27;s essay</li></ul>
-</section>
+    <img src="notes/086.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>86</b> / 88</p>
+    <h3>If you want to learn more about alignment and misalignment</h3>
+    <ul><li class="say">R5: alignment. Betley in Nature; Afonin, reading is enough; Arditi, refusal is one direction; OpenAI on stripping its own safety training; the constitution; Amodei&#x27;s essay</li></ul>
+    </section>
 <section id="n87">
-<img src="notes/087.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>87</b> / 88</p>
-<h3>If you want to learn more about AI and mathematics</h3>
-<ul><li class="say">R6: mathematics. Tao&#x27;s ICM essay and Nature interview, Quanta on the Erdős problems, the golden-age case</li></ul>
-</section>
+    <img src="notes/087.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>87</b> / 88</p>
+    <h3>If you want to learn more about AI and mathematics</h3>
+    <ul><li class="say">R6: mathematics. Tao&#x27;s ICM essay and Nature interview, Quanta on the Erdős problems, the golden-age case</li></ul>
+    </section>
 <section id="n88">
-<img src="notes/088.jpg" width="800" height="450" alt="" loading="lazy">
-<p class="pos"><b>88</b> / 88</p>
-<h3>If you want to learn more about governing this</h3>
-<ul><li class="say">R7: governing this. Leiden is the template: a profession wrote its rules in a year without asking permission. Urbina on dual use, Cegłowski on the moral economy, the Index&#x27;s responsible-AI chapter, Khosla</li><li class="say">Stop talking here</li></ul>
-</section>
-</main>
-</body>
-</html>
+    <img src="notes/088.jpg" width="800" height="450" alt="" loading="lazy">
+    <p class="pos"><b>88</b> / 88</p>
+    <h3>If you want to learn more about governing this</h3>
+    <ul><li class="say">R7: governing this. Leiden is the template: a profession wrote its rules in a year without asking permission. Urbina on dual use, Cegłowski on the moral economy, the Index&#x27;s responsible-AI chapter, Khosla</li><li class="say">Stop talking here</li></ul>
+    </section>
+    </main>
+    </body>
+    </html>
+    
